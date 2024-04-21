@@ -80,8 +80,8 @@ export default function CampaignSwitcher({ className }: CampaignSwitcherProps) {
   const [open, setOpen] = React.useState(false);
   const [showNewCampaignDialog, setShowNewCampaignDialog] =
     React.useState(false);
-  const [selectedCampaign, setSelectedCampaign] = React.useState<Campaign>(
-    groups[0].campaigns[0],
+  const [selectedCampaign, setSelectedCampaign] = React.useState<Campaign | undefined>(
+    groups[0]?.campaigns[0],
   );
 
   return (
@@ -100,13 +100,13 @@ export default function CampaignSwitcher({ className }: CampaignSwitcherProps) {
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={`https://avatar.vercel.sh/${selectedCampaign.value}.png`}
-                alt={selectedCampaign.label}
+                src={`https://avatar.vercel.sh/${selectedCampaign?.value}.png`}
+                alt={selectedCampaign?.label}
                 className="grayscale"
               />
               <AvatarFallback>SC</AvatarFallback>
             </Avatar>
-            {selectedCampaign.label}
+            {selectedCampaign?.label}
             <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -138,7 +138,7 @@ export default function CampaignSwitcher({ className }: CampaignSwitcherProps) {
                       <CheckIcon
                         className={cn(
                           "ml-auto h-4 w-4",
-                          selectedCampaign.value === campaign.value
+                          selectedCampaign?.value === campaign.value
                             ? "opacity-100"
                             : "opacity-0",
                         )}

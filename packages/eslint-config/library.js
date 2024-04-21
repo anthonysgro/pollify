@@ -24,8 +24,9 @@ module.exports = {
     // Ignore dotfiles
     ".*.js",
     "node_modules/",
-    "dist/",
+    "dist",
     "cdk.out"
+    "test"
   ],
   overrides: [
     {
