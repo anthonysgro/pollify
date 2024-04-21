@@ -1,0 +1,29 @@
+generator client {
+  provider       = "prisma-client-js"
+}
+
+generator zod {
+  provider       = "zod-prisma-types"
+}
+
+
+datasource db {
+  provider       = "postgresql"
+  url            = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(dbgenerated("concat('usr_', replace((gen_random_uuid())::text, '-'::text, ''::text))"))
+  email          String   @unique
+  name           String?
+  avatar         String?
+  org            Boolean?
+  role           Role     @default(USER)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
