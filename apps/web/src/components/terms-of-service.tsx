@@ -35,7 +35,7 @@ function TermsOfServiceForm({ className }: React.ComponentProps<"div">) {
       <div className="mt-1">
         <Label className={"font-bold text-md"}>Last Updated: 12/26/23</Label>
         <p className="mt-1">
-          Welcome to Groupy! These Terms of Service (&quot;Terms&quot;)
+          Welcome to Pollify! These Terms of Service (&quot;Terms&quot;)
           constitute a legally binding agreement between you and Misho
           (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) governing your
           use of Misho and its related services (collectively, the
