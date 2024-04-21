@@ -80,9 +80,9 @@ export default function CampaignSwitcher({ className }: CampaignSwitcherProps) {
   const [open, setOpen] = React.useState(false);
   const [showNewCampaignDialog, setShowNewCampaignDialog] =
     React.useState(false);
-  const [selectedCampaign, setSelectedCampaign] = React.useState<Campaign | undefined>(
-    groups[0]?.campaigns[0],
-  );
+  const [selectedCampaign, setSelectedCampaign] = React.useState<
+    Campaign | undefined
+  >(groups[0]?.campaigns[0]);
 
   return (
     <Dialog

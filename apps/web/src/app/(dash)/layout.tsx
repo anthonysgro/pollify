@@ -2,9 +2,6 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { docsConfig } from "@/config/docs";
 import { DashboardNav } from "@/app/(dash)/dashboard/(components)/dashboard-nav";
-import { env } from "../../../env.mjs";
-import { ComingSoon } from "@/components/coming-soon";
-import { constants } from "@/lib/constants";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -13,10 +10,6 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  if (env.NODE_ENV === constants.PROD_ENV) {
-    return <ComingSoon />;
-  }
-
   return (
     <>
       <SiteHeader />

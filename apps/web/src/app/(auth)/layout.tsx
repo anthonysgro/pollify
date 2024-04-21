@@ -1,7 +1,4 @@
 import * as React from "react";
-import { env } from "../../../env.mjs";
-import { constants } from "@/lib/constants";
-import { ComingSoon } from "@/components/coming-soon";
 
 export interface AuthPageProps {
   isProdEnv: boolean;
@@ -11,7 +8,7 @@ export interface AuthLayoutProps {
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
-  const isProdEnv = env.NODE_ENV === constants.PROD_ENV;
+  // const isProdEnv = env.NODE_ENV === constants.PROD_ENV;
 
   // const childrenWithProps = React.Children.map(children, (child) => {
   //     if (React.isValidElement(child)) {
@@ -20,7 +17,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   //     return child;
   // });
 
-  if (isProdEnv) return <ComingSoon />;
+  // if (isProdEnv) return <ComingSoon />;
 
   return (
     <div className="min-h-screen flex items-center justify-center">
