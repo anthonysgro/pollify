@@ -1,12 +1,12 @@
 export const siteConfig = {
-  name: "Groupy",
-  title: "Groupy: Create Quick Polls with your Friends",
-  url: "https://groupy.app",
+  name: "Pollify",
+  title: "Pollify: Create Quick Polls with your Friends",
+  url: "https://pollify.app",
   ogImage: "https://group.app/og.png",
   description: "The platform for creating polls with your friends",
   links: {
-    twitter: "https://twitter.com/groupy",
-    github: "https://github.com/groupy",
+    twitter: "https://twitter.com/pollify",
+    github: "https://github.com/pollify",
   },
 };
 
