@@ -75,56 +75,79 @@ export function UserAuthForm({
 
   return (
     <>
-      <React.Suspense>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className={cn("grid gap-6", className)}
-            {...props}
-          >
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={cn("grid gap-6", className)}
+          {...props}
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <>
+                    <Input
+                      placeholder="name@example.com"
+                      id="email"
+                      type="email"
+                      autoCapitalize="none"
+                      autoComplete="email"
+                      autoCorrect="off"
+                      disabled={isLoading || isGoogleLoading}
+                      {...form.register("email")}
+                      {...field}
+                    />
+                  </>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <>
+                    <Input
+                      placeholder="Password"
+                      id="password"
+                      type="password"
+                      autoCapitalize="none"
+                      autoComplete="password"
+                      autoCorrect="off"
+                      hidden={true}
+                      disabled={isLoading || isGoogleLoading}
+                      {...form.register("password")}
+                      {...field}
+                    />
+                  </>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {registerMode ? (
             <FormField
               control={form.control}
-              name="email"
+              name="confirm"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <>
                       <Input
-                        placeholder="name@example.com"
-                        id="email"
-                        type="email"
-                        autoCapitalize="none"
-                        autoComplete="email"
-                        autoCorrect="off"
-                        disabled={isLoading || isGoogleLoading}
-                        {...form.register("email")}
-                        {...field}
-                      />
-                    </>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <>
-                      <Input
-                        placeholder="Password"
-                        id="password"
+                        placeholder="Confirm password"
+                        id="confirm"
                         type="password"
-                        autoCapitalize="none"
-                        autoComplete="password"
-                        autoCorrect="off"
                         hidden={true}
                         disabled={isLoading || isGoogleLoading}
-                        {...form.register("password")}
+                        {...form.register("confirm")}
                         {...field}
                       />
                     </>
@@ -133,72 +156,47 @@ export function UserAuthForm({
                 </FormItem>
               )}
             />
-            {registerMode ? (
-              <FormField
-                control={form.control}
-                name="confirm"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <>
-                        <Input
-                          placeholder="Confirm password"
-                          id="confirm"
-                          type="password"
-                          hidden={true}
-                          disabled={isLoading || isGoogleLoading}
-                          {...form.register("confirm")}
-                          {...field}
-                        />
-                      </>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ) : (
-              ""
-            )}
-
-            <Button disabled={isLoading}>
-              {isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Continue
-            </Button>
-          </form>
-        </Form>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-        <Button
-          variant="outline"
-          type="button"
-          onClick={() => {
-            setIsGoogleLoading(true);
-            signIn("google", {
-              redirect: true,
-              callbackUrl: "/dashboard",
-            });
-          }}
-          disabled={isLoading || isGoogleLoading}
-        >
-          {isGoogleLoading ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : (
-            <Icons.google className="mr-2 h-5 w-5" />
-          )}{" "}
-          Google
-        </Button>
-      </React.Suspense>
+            ""
+          )}
+
+          <Button disabled={isLoading}>
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Continue
+          </Button>
+        </form>
+      </Form>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with
+          </span>
+        </div>
+      </div>
+      <Button
+        variant="outline"
+        type="button"
+        onClick={() => {
+          setIsGoogleLoading(true);
+          signIn("google", {
+            redirect: true,
+            callbackUrl: "/dashboard",
+          });
+        }}
+        disabled={isLoading || isGoogleLoading}
+      >
+        {isGoogleLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.google className="mr-2 h-5 w-5" />
+        )}{" "}
+        Google
+      </Button>
     </>
   );
 }

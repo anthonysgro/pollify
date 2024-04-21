@@ -12,6 +12,7 @@ import Image from "next/image";
 import VerticalTwo from "../../../../public/vertical-two.jpg";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import React from "react";
 
 const svgMotion = {
   rest: { x: 0, ease: "easeOut", duration: 0.2, type: "spring" },
@@ -78,7 +79,10 @@ export default function RegisterPage() {
                 Enter your email below to create your account
               </p>
             </div>
-            <UserAuthForm registerMode={true} />
+            <React.Suspense>
+              <UserAuthForm registerMode={true} />
+            </React.Suspense>
+
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our <TermsOfService /> and{" "}
               <PrivacyPolicy />.

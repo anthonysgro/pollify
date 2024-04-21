@@ -6,6 +6,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import React from "react";
 
 const svgMotion = {
   rest: { x: 0, ease: "easeOut", duration: 0.2, type: "spring" },
@@ -48,7 +49,10 @@ export default function LoginPage() {
                 Enter your email to sign in to your account
               </p>
             </div>
-            <UserAuthForm registerMode={false} />
+            <React.Suspense>
+              <UserAuthForm registerMode={false} />
+            </React.Suspense>
+
             <p className="px-8 text-center text-sm text-muted-foreground">
               <Link
                 href="/register"
