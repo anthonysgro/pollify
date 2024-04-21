@@ -42,7 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 Schema:
 
 1. Poll Creation
-   a. A user can create many polls. A poll can also have one creator.
+   a. A user can create many polls. A poll can also have one creator
 2. Poll voting
    a. A user can vote in many polls. A poll can have many user votes.
    b. A poll can optionally have either 1 vote per user or multiple votes per user.
