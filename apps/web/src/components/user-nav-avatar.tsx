@@ -15,11 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
 
-interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "name" | "image" | "email">;
-}
-
-export function UserNavAvatar({ user }: UserAccountNavProps) {
+export function UserNavAvatar({ user }: { user: User | undefined }) {
   const userInitials = user?.name
     ? user.name
         .split(" ")

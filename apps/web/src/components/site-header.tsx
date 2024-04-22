@@ -3,11 +3,11 @@ import { MainNav } from "@/components/main-nav";
 import { MobileNav } from "@/components/mobile-nav";
 import { ModeToggle } from "@/components/mode-toggle";
 import { UserNavAvatar } from "@/components/user-nav-avatar";
-import { getUserSession } from "@/lib/session";
 import { docsConfig } from "@/config/docs";
+import { auth } from "@/auth";
 
 export async function SiteHeader() {
-  const user = await getUserSession();
+  const session = await auth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -18,7 +18,7 @@ export async function SiteHeader() {
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <CommandMenu />
           </div>
-          <UserNavAvatar user={user} />{" "}
+          <UserNavAvatar user={session?.user} />{" "}
           <nav className="flex items-center">
             <ModeToggle />
           </nav>

@@ -17,6 +17,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "postcss.config.js",
+    "env.mjs"
   ],
   "exclude": ["node_modules"]
 }
