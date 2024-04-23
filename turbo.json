@@ -1,12 +1,27 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "globalEnv": ["NODE_ENV","AUTH_URL","AUTH_SECRET","AUTH_GOOGLE_ID","AUTH_GOOGLE_SECRET"],
+  "globalEnv": [
+    "NODE_ENV",
+    "AUTH_URL",
+    "AUTH_SECRET",
+    "AUTH_GOOGLE_ID",
+    "AUTH_GOOGLE_SECRET",
+    "DATABASE_URL",
+    "RDS_DATABASE",
+    "RDS_USERNAME",
+    "RDS_PASSWORD",
+    "RDS_ARN",
+    "AWS_PROFILE",
+    "AWS_SHARED_CREDENTIALS_FILE",
+    "AWS_CONFIG_FILE"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "type-check": {},
     "lint": {
       "dependsOn": ["^lint"]
     },
