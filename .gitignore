@@ -15,6 +15,9 @@ node_modules
 # Testing
 coverage
 
+# CDK
+cdk.out
+
 # Turbo
 .turbo
 

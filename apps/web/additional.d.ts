@@ -6,3 +6,11 @@ declare module "*.mp4" {
 declare module "*.png" {
   export default string;
 }
+
+declare module "@auth/drizzle-adapter" {
+  export function DrizzleAdapter(db: any, schema?: any): import("../../node_modules/@auth/core/adapters").Adapter;
+}
+
+declare module "@aws-sdk/client-rds-data"
+
+declare module "@aws-sdk/credential-providers"
