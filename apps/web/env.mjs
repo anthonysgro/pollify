@@ -6,6 +6,13 @@ export const env = createEnv({
         // This is optional because it's only used in development.
         // See https://next-auth.js.org/deployment.
         NODE_ENV: z.string(),
+        AUTH0_SECRET: z.string().min(1),
+        AUTH0_BASE_URL: z.string().min(1),
+        AUTH0_ISSUER_BASE_URL: z.string().min(1),
+        AUTH0_CLIENT_ID: z.string().min(1),
+        AUTH0_CLIENT_SECRET: z.string().min(1),
+        AUTH0_AUDIENCE: z.string().optional(),
+        AUTH0_SCOPE: z.string().min(1),
         AUTH_URL: z.string().url().optional(),
         AUTH_SECRET: z.string().min(1),
         AUTH_GOOGLE_ID: z.string().min(1),
@@ -24,6 +31,13 @@ export const env = createEnv({
     },
     runtimeEnv: {
         NODE_ENV: process.env.NODE_ENV,
+        AUTH0_SECRET: process.env.AUTH0_SECRET,
+        AUTH0_BASE_URL: process.env.AUTH0_BASE_URL,
+        AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
+        AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+        AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+        AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
+        AUTH0_SCOPE: process.env.AUTH0_SCOPE,
         AUTH_URL: process.env.AUTH_URL,
         AUTH_SECRET: process.env.AUTH_SECRET,
         AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,

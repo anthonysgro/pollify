@@ -1,16 +1,19 @@
 /* eslint-disable no-undef */
 // additional.d.ts
-declare module "*.mp4" {
-  export default string;
+declare module '*.mp4' {
+    export default string
 }
-declare module "*.png" {
-  export default string;
-}
-
-declare module "@auth/drizzle-adapter" {
-  export function DrizzleAdapter(db: any, schema?: any): import("../../node_modules/@auth/core/adapters").Adapter;
+declare module '*.png' {
+    export default string
 }
 
-declare module "@aws-sdk/client-rds-data"
+declare module '@auth/drizzle-adapter' {
+    export function DrizzleAdapter(
+        db: any,
+        schema?: any,
+    ): import('../../node_modules/@auth/core/adapters').Adapter
+}
 
-declare module "@aws-sdk/credential-providers"
+declare module '@aws-sdk/client-rds-data'
+
+declare module '@aws-sdk/credential-providers'

@@ -1,113 +1,113 @@
-import { MainNavItem, SidebarNavItem, DashNavItem } from "@/types/nav";
+import { MainNavItem, SidebarNavItem, DashNavItem } from '@/types/nav'
 
 interface DocsConfig {
-  mainNav: MainNavItem[];
-  dashNav: DashNavItem[];
-  sidebarNav: SidebarNavItem[];
+    mainNav: MainNavItem[]
+    dashNav: DashNavItem[]
+    sidebarNav: SidebarNavItem[]
 }
 
 export const docsConfig: DocsConfig = {
-  mainNav: [
-    {
-      title: "Create Poll",
-      href: "/polls",
-    },
-    {
-      title: "Schedule Meeting",
-      href: "/meeting",
-    },
-    {
-      title: "Contact",
-      href: "/contact",
-    },
-  ],
-  dashNav: [
-    {
-      title: "Polls",
-      href: "/polls",
-      icon: "heart",
-    },
-    {
-      title: "Dashboard",
-      href: "/dashboard",
-      icon: "guage",
-    },
-    {
-      title: "Billing",
-      href: "/dashboard/billing",
-      icon: "billing",
-    },
-    {
-      title: "Settings",
-      href: "/dashboard/settings",
-      icon: "settings",
-    },
-  ],
-  sidebarNav: [
-    {
-      title: "Getting Started",
-      items: [
+    mainNav: [
         {
-          title: "Introduction",
-          href: "/docs",
-          items: [],
+            title: 'Create Poll',
+            href: '/polls',
         },
         {
-          title: "Installation",
-          href: "/docs/installation",
-          items: [],
+            title: 'Schedule Meeting',
+            href: '/meeting',
         },
         {
-          title: "Changelog",
-          href: "/docs/changelog",
-          items: [],
+            title: 'Contact',
+            href: '/contact',
+        },
+    ],
+    dashNav: [
+        {
+            title: 'Polls',
+            href: '/polls',
+            icon: 'heart',
         },
         {
-          title: "About",
-          href: "/docs/about",
-          items: [],
-        },
-      ],
-    },
-    {
-      title: "Installation",
-      items: [
-        {
-          title: "Next.js",
-          href: "/docs/installation/next",
-          items: [],
+            title: 'Dashboard',
+            href: '/dashboard',
+            icon: 'guage',
         },
         {
-          title: "Vite",
-          href: "/docs/installation/vite",
-          items: [],
+            title: 'Billing',
+            href: '/dashboard/billing',
+            icon: 'billing',
         },
         {
-          title: "Remix",
-          href: "/docs/installation/remix",
-          items: [],
+            title: 'Settings',
+            href: '/dashboard/settings',
+            icon: 'settings',
+        },
+    ],
+    sidebarNav: [
+        {
+            title: 'Getting Started',
+            items: [
+                {
+                    title: 'Introduction',
+                    href: '/docs',
+                    items: [],
+                },
+                {
+                    title: 'Installation',
+                    href: '/docs/installation',
+                    items: [],
+                },
+                {
+                    title: 'Changelog',
+                    href: '/docs/changelog',
+                    items: [],
+                },
+                {
+                    title: 'About',
+                    href: '/docs/about',
+                    items: [],
+                },
+            ],
         },
         {
-          title: "Gatsby",
-          href: "/docs/installation/gatsby",
-          items: [],
+            title: 'Installation',
+            items: [
+                {
+                    title: 'Next.js',
+                    href: '/docs/installation/next',
+                    items: [],
+                },
+                {
+                    title: 'Vite',
+                    href: '/docs/installation/vite',
+                    items: [],
+                },
+                {
+                    title: 'Remix',
+                    href: '/docs/installation/remix',
+                    items: [],
+                },
+                {
+                    title: 'Gatsby',
+                    href: '/docs/installation/gatsby',
+                    items: [],
+                },
+                {
+                    title: 'Astro',
+                    href: '/docs/installation/astro',
+                    items: [],
+                },
+                {
+                    title: 'Laravel',
+                    href: '/docs/installation/laravel',
+                    items: [],
+                },
+                {
+                    title: 'Manual',
+                    href: '/docs/installation/manual',
+                    items: [],
+                },
+            ],
         },
-        {
-          title: "Astro",
-          href: "/docs/installation/astro",
-          items: [],
-        },
-        {
-          title: "Laravel",
-          href: "/docs/installation/laravel",
-          items: [],
-        },
-        {
-          title: "Manual",
-          href: "/docs/installation/manual",
-          items: [],
-        },
-      ],
-    },
-  ],
-};
+    ],
+}

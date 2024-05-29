@@ -1,3 +1,3 @@
 export const constants = {
-  PROD_ENV: "production",
-};
+    PROD_ENV: 'production',
+}
