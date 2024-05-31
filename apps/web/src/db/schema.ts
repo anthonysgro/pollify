@@ -10,51 +10,67 @@ import {
 import { sql } from 'drizzle-orm'
 
 export const votes = pgTable('votes', {
-    vote_id: uuid('vote_id')
+    voteId: uuid('vote_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
         .notNull(),
-    answer_id: uuid('answer_id').references(() => answers.answer_id, {
+    answerId: uuid('answer_id').references(() => answers.answerId, {
         onDelete: 'cascade',
     }),
-    voter_id: uuid('voter_id').references(() => voters.voter_id, {
+    voterId: uuid('voter_id').references(() => voters.voterId, {
         onDelete: 'set null',
     }),
-    vote_timestamp: timestamp('vote_timestamp', {
+    voteTimestamp: timestamp('vote_timestamp', {
         mode: 'string',
     }).defaultNow(),
+    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
+        sql`current_timestamp(6)`,
+      ),
+    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
 })
 
 export const polls = pgTable('polls', {
-    poll_id: uuid('poll_id')
+    pollId: uuid('poll_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
         .notNull(),
     title: varchar('title', { length: 1024 }).notNull(),
     description: varchar('description', { length: 1024 }),
     image: varchar('image', { length: 1024 }),
-    poll_type: integer('poll_type'),
+    pollType: integer('poll_type'),
+    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
+        sql`current_timestamp(6)`,
+      ),
+    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
 })
 
 export const answers = pgTable('answers', {
-    answer_id: uuid('answer_id')
+    answerId: uuid('answer_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
         .notNull(),
-    poll_id: uuid('poll_id').references(() => polls.poll_id, {
+    pollId: uuid('poll_id').references(() => polls.pollId, {
         onDelete: 'cascade',
     }),
     answer_text: varchar('answer_text', { length: 1024 }).notNull(),
+    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
+        sql`current_timestamp(6)`,
+      ),
+    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
 })
 
 export const voters = pgTable('voters', {
-    voter_id: uuid('voter_id')
+    voterId: uuid('voter_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
         .notNull(),
-    ip_address: varchar('ip_address', { length: 45 }),
-    browser_session: varchar('browser_session', { length: 128 }),
-    unique_code: varchar('unique_code', { length: 50 }),
-    user_id: uuid('user_id'),
-    is_anonymous: boolean('is_anonymous').default(true).notNull(),
+    ipAddress: varchar('ip_address', { length: 45 }),
+    browserSession: varchar('browser_session', { length: 128 }),
+    uniqueCode: varchar('unique_code', { length: 50 }),
+    userId: uuid('user_id'),
+    isAnonymous: boolean('is_anonymous').default(true).notNull(),
+    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
+        sql`current_timestamp(6)`,
+      ),
+    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
 })

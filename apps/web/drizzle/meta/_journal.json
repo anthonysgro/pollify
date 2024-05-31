@@ -8,6 +8,20 @@
       "when": 1717126771571,
       "tag": "0000_natural_hiroim",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1717130436430,
+      "tag": "0001_bitter_selene",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1717131026919,
+      "tag": "0002_flippant_spiral",
+      "breakpoints": true
     }
   ]
 }
