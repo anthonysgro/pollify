@@ -1,11 +1,14 @@
 // READ MORE: https://nextjs.org/docs/app/building-your-application/routing/route-handlers
 
+import { db } from '@/db'
+import { polls } from '@/db/schema'
 import { NextRequest, NextResponse } from 'next/server'
 
 // To handle a GET request to /api
 // eslint-disable-next-line no-unused-vars
 export async function GET(req: NextRequest) {
-    return NextResponse.json({ message: 'Hello World' }, { status: 200 })
+    const allPolls = await db.select().from(polls)
+    return NextResponse.json({ message: allPolls }, { status: 200 })
 }
 
 // To handle a POST request to /api

@@ -13,7 +13,3 @@ declare module '@auth/drizzle-adapter' {
         schema?: any,
     ): import('../../node_modules/@auth/core/adapters').Adapter
 }
-
-declare module '@aws-sdk/client-rds-data'
-
-declare module '@aws-sdk/credential-providers'

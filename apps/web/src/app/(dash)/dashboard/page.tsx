@@ -36,4 +36,4 @@ async function DashboardPage() {
     )
 }
 
-export default withPageAuthRequired(DashboardPage);
+export default withPageAuthRequired(DashboardPage)

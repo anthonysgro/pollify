@@ -14,7 +14,7 @@ import {
     DropdownMenuGroup,
 } from '@/components/ui/dropdown-menu'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { handleLogout } from '@auth0/nextjs-auth0';
+import { handleLogout } from '@auth0/nextjs-auth0'
 
 export function UserNavAvatar() {
     const { user, error, isLoading } = useUser()
@@ -83,9 +83,7 @@ export function UserNavAvatar() {
         return (
             <div>
                 <Button variant="ghost" asChild>
-                    <Link prefetch={false} href="/api/auth/login">
-                        Sign Up
-                    </Link>
+                    <Link href="/api/auth/login">Sign Up</Link>
                 </Button>
             </div>
         )

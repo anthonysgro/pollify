@@ -1,0 +1,13 @@
+{
+  "version": "6",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1717126771571,
+      "tag": "0000_natural_hiroim",
+      "breakpoints": true
+    }
+  ]
+}
