@@ -3,7 +3,6 @@ import '@/styles/globals.css'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/providers'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
-import { DndContext } from '@dnd-kit/core'
 
 interface RootLayoutProps {
     children: React.ReactNode
