@@ -23,10 +23,14 @@ export const votes = pgTable('votes', {
     voteTimestamp: timestamp('vote_timestamp', {
         mode: 'string',
     }).defaultNow(),
-    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
-        sql`current_timestamp(6)`,
-      ),
-    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
+    createdAt: timestamp('created_at', {
+        precision: 6,
+        withTimezone: true,
+    }).default(sql`current_timestamp(6)`),
+    updatedAt: timestamp('updated_at', {
+        precision: 6,
+        withTimezone: true,
+    }).$onUpdateFn(() => new Date()),
 })
 
 export const polls = pgTable('polls', {
@@ -38,10 +42,14 @@ export const polls = pgTable('polls', {
     description: varchar('description', { length: 1024 }),
     image: varchar('image', { length: 1024 }),
     pollType: integer('poll_type'),
-    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
-        sql`current_timestamp(6)`,
-      ),
-    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
+    createdAt: timestamp('created_at', {
+        precision: 6,
+        withTimezone: true,
+    }).default(sql`current_timestamp(6)`),
+    updatedAt: timestamp('updated_at', {
+        precision: 6,
+        withTimezone: true,
+    }).$onUpdateFn(() => new Date()),
 })
 
 export const answers = pgTable('answers', {
@@ -53,10 +61,14 @@ export const answers = pgTable('answers', {
         onDelete: 'cascade',
     }),
     answer_text: varchar('answer_text', { length: 1024 }).notNull(),
-    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
-        sql`current_timestamp(6)`,
-      ),
-    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
+    createdAt: timestamp('created_at', {
+        precision: 6,
+        withTimezone: true,
+    }).default(sql`current_timestamp(6)`),
+    updatedAt: timestamp('updated_at', {
+        precision: 6,
+        withTimezone: true,
+    }).$onUpdateFn(() => new Date()),
 })
 
 export const voters = pgTable('voters', {
@@ -69,8 +81,12 @@ export const voters = pgTable('voters', {
     uniqueCode: varchar('unique_code', { length: 50 }),
     userId: uuid('user_id'),
     isAnonymous: boolean('is_anonymous').default(true).notNull(),
-    createdAt: timestamp("created_at", { precision: 6, withTimezone: true}).default(
-        sql`current_timestamp(6)`,
-      ),
-    updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true}).$onUpdateFn(() => new Date()),
+    createdAt: timestamp('created_at', {
+        precision: 6,
+        withTimezone: true,
+    }).default(sql`current_timestamp(6)`),
+    updatedAt: timestamp('updated_at', {
+        precision: 6,
+        withTimezone: true,
+    }).$onUpdateFn(() => new Date()),
 })

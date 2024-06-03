@@ -10,7 +10,7 @@ export const docsConfig: DocsConfig = {
     mainNav: [
         {
             title: 'Create Poll',
-            href: '/polls',
+            href: '/create',
         },
         {
             title: 'Schedule Meeting',
@@ -24,7 +24,7 @@ export const docsConfig: DocsConfig = {
     dashNav: [
         {
             title: 'Polls',
-            href: '/polls',
+            href: '/create',
             icon: 'heart',
         },
         {

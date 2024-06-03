@@ -2,7 +2,7 @@ import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { docsConfig } from '@/config/docs'
 import { DashboardNav } from '@/app/(dash)/dashboard/(components)/dashboard-nav'
-
+import PlaygroundPage from '@/app/(create)/create/page'
 interface DashboardLayoutProps {
     children: React.ReactNode
 }
@@ -13,6 +13,7 @@ export default async function DashboardLayout({
     return (
         <>
             <SiteHeader />
+            <PlaygroundPage />
             {/* <div className="container grid flex-1 gap-6 lg:grid-cols-[215px_1fr]">
                 <aside className="hidden w-[215px] flex-col lg:flex border-r pt-6 pr-2">
                     <DashboardNav items={docsConfig.dashNav} />

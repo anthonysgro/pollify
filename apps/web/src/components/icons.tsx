@@ -32,6 +32,7 @@ import {
     QuestionMarkCircledIcon,
     StopwatchIcon,
     LockClosedIcon,
+    DragHandleVerticalIcon,
 } from '@radix-ui/react-icons'
 
 export const Icons = {
@@ -64,6 +65,7 @@ export const Icons = {
     sun: SunMedium,
     moon: Moon,
     laptop: Laptop,
+    dragHandleVerticalIcon: DragHandleVerticalIcon,
     logo: (props: IconProps) => (
         <svg
             xmlns="http://www.w3.org/2000/svg"
