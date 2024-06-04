@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -42,7 +42,11 @@ const formSchema = z.object({
     title: z.string().min(2).max(124),
     description: z.string().min(0).max(1024).optional(),
     image: z.string().optional(),
-    answers: z.array(z.string()),
+    answers: z.array(
+        z.object({
+            text: z.string(),
+        }),
+    ),
 })
 
 export default function FreePollForm() {
@@ -61,7 +65,14 @@ export default function FreePollForm() {
             title: '',
             description: '',
             image: '',
+            answers: [{ text: '' }],
         },
+    })
+
+    //
+    const { fields, append, remove, move } = useFieldArray({
+        control: form.control,
+        name: 'answers',
     })
 
     // 2. Define a submit handler.
@@ -76,18 +87,16 @@ export default function FreePollForm() {
         if (!e.over) return
 
         if (e.active.id !== e.over.id) {
-            console.log(e)
-            setAnswers((answers) => {
-                const oldIdx = answers.indexOf(e.active.id.toString())
-                const newIdx = answers.indexOf(e.over!.id.toString())
-                return arrayMove(answers, oldIdx, newIdx)
-            })
+            const oldIdx = answers.indexOf(e.active.id.toString())
+            const newIdx = answers.indexOf(e.over!.id.toString())
+            move(oldIdx, newIdx)
         }
     }
 
-    const handleRemove = (id: string) => {
-        console.log(id)
-        setAnswers((answers) => answers.filter((answer) => answer !== id))
+    const handleRemove = (id: number) => {
+        remove(id)
+        // console.log(id)
+        // setAnswers((answers) => answers.filter((answer) => answer !== id))
     }
 
     return (
@@ -155,41 +164,39 @@ export default function FreePollForm() {
                 />
                 <FormItem>
                     <FormLabel>Answers</FormLabel>
-                    <FormField
-                        control={form.control}
-                        name="answers"
-                        render={({ field }) => (
-                            <DndContext
-                                sensors={sensors}
-                                collisionDetection={closestCenter}
-                                onDragEnd={handleDragEnd}
-                                modifiers={[
-                                    restrictToVerticalAxis,
-                                    restrictToWindowEdges,
-                                ]}
-                            >
-                                <SortableContext
-                                    strategy={verticalListSortingStrategy}
-                                    items={answers}
-                                >
-                                    {answers.map((answer, i) => (
+                    <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleDragEnd}
+                        modifiers={[
+                            restrictToVerticalAxis,
+                            restrictToWindowEdges,
+                        ]}
+                    >
+                        <SortableContext
+                            strategy={verticalListSortingStrategy}
+                            items={answers}
+                        >
+                            {fields.map((field, index) => (
+                                <FormField
+                                    control={form.control}
+                                    name="answers"
+                                    render={({ field }) => (
                                         <div
                                             className="flex flex-row"
-                                            key={answer}
+                                            key={index}
                                         >
                                             <SortableAnswerItem
-                                                children={answer}
-                                                answer={answer}
-                                                field={field}
-                                                idx={i}
                                                 handleRemove={handleRemove}
+                                                id={index}
+                                                field={field}
                                             />
                                         </div>
-                                    ))}
-                                </SortableContext>
-                            </DndContext>
-                        )}
-                    />
+                                    )}
+                                />
+                            ))}
+                        </SortableContext>
+                    </DndContext>
                     <Button
                         onClick={(e) => {
                             e.preventDefault()

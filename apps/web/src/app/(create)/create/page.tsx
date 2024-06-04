@@ -26,7 +26,7 @@ import { TopPSelector } from './components/top-p-selector'
 import { models, types } from './data/models'
 import { presets } from './data/presets'
 
-import FreePollForm from './creations/free-poll'
+import FreePollForm from './creations/free-poll-basic'
 
 export const metadata: Metadata = {
     title: 'Playground',
@@ -274,15 +274,6 @@ export default function PlaygroundPage() {
                       placeholder="Write a tagline for an ice cream shop"
                       className="min-h-[400px] flex-1 p-4 md:min-h-[700px] lg:min-h-[700px]"
                     /> */}
-                                        <div className="flex items-center space-x-2">
-                                            <Button>Submit</Button>
-                                            <Button variant="secondary">
-                                                <span className="sr-only">
-                                                    Show history
-                                                </span>
-                                                <CounterClockwiseClockIcon className="h-4 w-4" />
-                                            </Button>
-                                        </div>
                                     </div>
                                 </TabsContent>
                                 <TabsContent

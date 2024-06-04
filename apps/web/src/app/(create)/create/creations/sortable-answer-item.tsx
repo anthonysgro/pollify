@@ -8,24 +8,24 @@ import { Icons } from '@/components/icons'
 import { useDraggable } from '@dnd-kit/core'
 
 interface ISortableAnswerItem {
-    children: string
-    answer: string
     field: ControllerRenderProps<
         {
             title: string
-            answers: string[]
-            image?: string | undefined
+            answers: {
+                text: string
+            }[]
             description?: string | undefined
+            image?: string | undefined
         },
         'answers'
     >
-    idx: number
-    handleRemove: (id: string) => void
+    id: number
+    handleRemove: (id: number) => void
 }
 
-const HandleIcon = ({ answer }: { answer: string }) => {
+const HandleIcon = ({ id }: { id: number }) => {
     const { attributes, listeners, setNodeRef } = useDraggable({
-        id: answer,
+        id,
     })
 
     return (
@@ -41,15 +41,13 @@ const HandleIcon = ({ answer }: { answer: string }) => {
 }
 
 export const SortableAnswerItem: FC<ISortableAnswerItem> = ({
-    children,
-    answer,
     field,
-    idx,
+    id,
     handleRemove,
 }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({
-            id: children,
+            id,
             animateLayoutChanges: (args) =>
                 defaultAnimateLayoutChanges({ ...args, wasDragging: true }),
         })
@@ -62,11 +60,11 @@ export const SortableAnswerItem: FC<ISortableAnswerItem> = ({
     return (
         <div ref={setNodeRef} {...attributes} style={style}>
             <div className="flex flex-row items-center">
-                <HandleIcon answer={answer} />
+                <HandleIcon id={id} />
                 <FormControl>
-                    <Input placeholder={`Option ${children}`} {...field} />
+                    <Input placeholder={`Option ${id}`} {...field} />
                 </FormControl>
-                <Icons.close onClick={() => handleRemove(answer)} />
+                <Icons.close onClick={() => handleRemove(id)} />
             </div>
         </div>
     )
