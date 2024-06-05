@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     DndContext,
     closestCenter,
@@ -45,6 +45,7 @@ import { FilePondFile, FilePondInitialFile } from 'filepond'
 import { ControllerRenderProps, useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
+import { SortableAnswer } from './sortable-answer'
 
 export const formSchema = z.object({
     title: z.string().min(2, {
@@ -61,96 +62,10 @@ export const formSchema = z.object({
         .min(1, { message: 'At least one answer is required.' }),
 })
 
-// Define a type for the items
-interface Answer {
-    text: string
-    uuid: string
-}
-
-// Props for SortableItem component
-interface SortableAnswerProps {
-    field: ControllerRenderProps<
-        {
-            title: string
-            answers: {
-                text: string
-                uuid: string
-            }[]
-            description?: string | undefined
-        },
-        `answers.${number}.text`
-    >
-    id: string
-    text: string
-    handleRemove: (uuid: string) => void
-}
-
-const HandleIcon = ({ id }: { id: string }) => {
-    const { attributes, listeners, setNodeRef } = useDraggable({
-        id,
-    })
-
-    return (
-        <div
-            ref={setNodeRef}
-            {...attributes}
-            {...listeners}
-            className="cursor-grab"
-        >
-            <Icons.gripVertical className="hover:cursor-move" />
-        </div>
-    )
-}
-
-// Sortable item component
-const SortableAnswer: React.FC<SortableAnswerProps> = ({
-    id,
-    field,
-    handleRemove,
-}) => {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({
-            id,
-            animateLayoutChanges: (args) =>
-                defaultAnimateLayoutChanges({ ...args, wasDragging: true }),
-        })
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    }
-
-    return (
-        <FormItem
-            className="flex flex-row items-center"
-            ref={setNodeRef}
-            {...attributes}
-            style={style}
-        >
-            <HandleIcon id={id} />
-            <div className="flex flex-col">
-                <FormControl>
-                    <Input {...field} />
-                </FormControl>
-                <FormDescription></FormDescription>
-                <FormMessage />
-            </div>
-            <Icons.close
-                className="hover:cursor-pointer"
-                onClick={() => handleRemove(id)}
-            />
-        </FormItem>
-    )
-}
-
 // Main component
 const SortableList: React.FC = () => {
-    const [answers, setAnswers] = useState<Answer[]>([
-        { text: 'answer1', uuid: uuidv4() },
-        { text: 'answer2', uuid: uuidv4() },
-        { text: 'answer3', uuid: uuidv4() },
-        { text: 'answer4', uuid: uuidv4() },
-    ])
+    // const [answers, setAnswers] = useState<Answer[]>([
+    // ])
     const [files, setFiles] = useState<File[]>([])
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -165,9 +80,16 @@ const SortableList: React.FC = () => {
         defaultValues: {
             title: '',
             description: '',
-            answers: answers,
+            answers: [
+                { text: '', uuid: uuidv4() },
+                { text: '', uuid: uuidv4() },
+                { text: '', uuid: uuidv4() },
+                { text: '', uuid: uuidv4() },        
+            ],
         },
     })
+
+    const watchAnswers = form.watch('answers')
 
     const { fields, append, remove, replace } = useFieldArray({
         control: form.control,
@@ -178,30 +100,27 @@ const SortableList: React.FC = () => {
         const { active, over } = event
 
         if (active.id !== over?.id) {
-            const oldIndex = answers.findIndex(
+            const oldIndex = fields.findIndex(
                 (answer) => answer.uuid === active.id,
             )
-            const newIndex = answers.findIndex(
+            const newIndex = fields.findIndex(
                 (answer) => answer.uuid === over?.id,
             )
 
-            setAnswers(() => {
-                return arrayMove(answers, oldIndex, newIndex)
-            })
-
-            replace(arrayMove(answers, oldIndex, newIndex))
+            replace(arrayMove(fields, oldIndex, newIndex))
         }
     }
 
+    useEffect(() => {
+        console.log("FORM ANSWERS:", watchAnswers)
+    }, [watchAnswers])
+
     const removeFromAnswers = (uuid: string) => {
-        setAnswers(answers.filter((answer) => answer.uuid !== uuid))
-        remove(answers.findIndex((answer) => answer.uuid === uuid))
+        remove(fields.findIndex((answer) => answer.uuid === uuid))
     }
 
     const handleAddAnswer = () => {
-        const newAnswer = { text: '', uuid: uuidv4() }
-        append(newAnswer)
-        setAnswers([...answers, newAnswer])
+        append({ text: '', uuid: uuidv4() })
     }
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -278,7 +197,7 @@ const SortableList: React.FC = () => {
                         ]}
                     >
                         <SortableContext
-                            items={answers.map((answer) => answer.uuid)}
+                            items={fields.map((answer) => answer.uuid)}
                             strategy={verticalListSortingStrategy}
                         >
                             {fields.map((field, index) => (
@@ -291,6 +210,7 @@ const SortableList: React.FC = () => {
                                             handleRemove={removeFromAnswers}
                                             field={fieldObj.field}
                                             id={field.uuid}
+                                            idx={index}
                                             text={field.text}
                                         />
                                     )}
