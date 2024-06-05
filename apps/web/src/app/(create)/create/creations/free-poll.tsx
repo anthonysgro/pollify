@@ -84,7 +84,7 @@ const SortableList: React.FC = () => {
                 { text: '', uuid: uuidv4() },
                 { text: '', uuid: uuidv4() },
                 { text: '', uuid: uuidv4() },
-                { text: '', uuid: uuidv4() },        
+                { text: '', uuid: uuidv4() },
             ],
         },
     })
@@ -112,7 +112,7 @@ const SortableList: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log("FORM ANSWERS:", watchAnswers)
+        console.log('FORM ANSWERS:', watchAnswers)
     }, [watchAnswers])
 
     const removeFromAnswers = (uuid: string) => {

@@ -1,6 +1,11 @@
 import { FC } from 'react'
 import { defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
-import { FormControl, FormDescription, FormItem, FormMessage } from '@/components/ui/form'
+import {
+    FormControl,
+    FormDescription,
+    FormItem,
+    FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { ControllerRenderProps } from 'react-hook-form'
 import { CSS } from '@dnd-kit/utilities'
@@ -73,9 +78,9 @@ export const SortableAnswer: FC<SortableAnswerProps> = ({
             <FormControl>
                 <Input placeholder={`Answer ${idx + 1}`} {...field} />
             </FormControl>
-            <div className='flex flex-row w-auto'>
-            <FormDescription></FormDescription>
-            <FormMessage />
+            <div className="flex flex-row w-auto">
+                <FormDescription></FormDescription>
+                <FormMessage />
             </div>
             <Icons.close
                 className="hover:cursor-pointer"
