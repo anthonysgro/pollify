@@ -16,28 +16,63 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { v4 as uuidv4 } from 'uuid'
 
-// Import React FilePond
-import { FilePond } from 'react-filepond'
-
-// Import FilePond styles
-import 'filepond/dist/filepond.min.css'
-import { ActualFileObject, FilePondFile, FilePondInitialFile } from 'filepond'
 import { Icons } from '@/components/icons'
 
-const formSchema = z.object({
+// Import FilePond styles
+import { FilePond } from 'react-filepond'
+import 'filepond/dist/filepond.min.css'
+import { FilePondFile, FilePondInitialFile } from 'filepond'
+
+import {
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    closestCenter,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core'
+import {
+    SortableContext,
+    arrayMove,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import {
+    restrictToVerticalAxis,
+    restrictToWindowEdges,
+} from '@dnd-kit/modifiers'
+import { SortableAnswer } from './sortable-answer'
+
+export const formSchema = z.object({
     title: z.string().min(2, {
         message: 'Title must be at least 2 characters.',
     }),
     description: z.string().min(0).optional(),
-    answers: z.array(z.object({
-      text: z.string().min(1, { message: "Answer cannot be empty." })
-  })).min(1, { message: "At least one answer is required." })
+    answers: z
+        .array(
+            z.object({
+                text: z.string().min(1, { message: 'Answer cannot be empty.' }),
+                uuid: z.string().uuid({ message: 'Internal app error ' }),
+            }),
+        )
+        .min(1, { message: 'At least one answer is required.' }),
 })
 
 export default function FreePollForm() {
     // State for the file input
-    const [files, setFiles] = useState<Array<File>>([])
+    const [answers, setAnswers] = useState<{ text: string; uuid: string }[]>([
+        { text: '', uuid: uuidv4() },
+    ])
+    const [files, setFiles] = useState<File[]>([])
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
+    )
 
     const filepondRef = useRef<FilePond>(null)
     const form = useForm<z.infer<typeof formSchema>>({
@@ -45,14 +80,34 @@ export default function FreePollForm() {
         defaultValues: {
             title: '',
             description: '',
-            answers: [{ text: '' }]
+            answers: answers,
         },
     })
 
+    const handleDragEnd = (event: DragEndEvent) => {
+        console.log(event)
+        const { active, over } = event
+
+        if (!over) {
+            return
+        }
+
+        const oldIndex = answers.findIndex(
+            (answer) => answer.uuid === active.id,
+        )
+        const newIndex = answers.findIndex((item) => item.uuid === over.id)
+
+        setAnswers(arrayMove(answers, oldIndex, newIndex))
+    }
+
     const { fields, append, remove } = useFieldArray({
-      control: form.control,
-      name: "answers"
-    });
+        control: form.control,
+        name: 'answers',
+    })
+
+    const removeFromAnswers = (uuid: string) => {
+        remove(answers.findIndex((answer) => answer.uuid === uuid))
+    }
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         const formData = new FormData()
@@ -63,8 +118,6 @@ export default function FreePollForm() {
         files.forEach((file) => {
             formData.append('file', file)
         })
-
-        console.log(formData)
     }
 
     return (
@@ -119,31 +172,44 @@ export default function FreePollForm() {
                 </FormItem>
                 <FormItem>
                     <FormLabel>Answers</FormLabel>
-                    {fields.map((field, index) => (
-                        <FormField
-                            key={field.id}
-                            control={form.control}
-                            name={`answers.${index}.text`}
-                            render={({ field }) => (
-                              <FormItem className="flex flex-row items-center">
-                                <Icons.gripVertical className="hover:cursor-move" />
-                                <FormControl>
-                                    <Input placeholder="type answer here..." {...field} />
-                                </FormControl>
-                                <Icons.close className="hover:cursor-pointer" onClick={() => remove(index)} />
-                              </FormItem>
-              
-                                // <FormItem>
-                                //     <FormControl>
-                                //         <Input placeholder="type answer here..." {...field} />
-                                //     </FormControl>
-                                //     <FormMessage />
-                                //     <Button type="button" onClick={() => remove(index)}>Remove</Button>
-                                // </FormItem>
-                            )}
-                        />
-                    ))}
-                    <Button type="button" onClick={() => append({ text: '' })}>Add Answer</Button>
+                    <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleDragEnd}
+                        modifiers={[
+                            restrictToVerticalAxis,
+                            restrictToWindowEdges,
+                        ]}
+                    >
+                        <SortableContext
+                            strategy={verticalListSortingStrategy}
+                            items={answers.map((answer) => {
+                                return { id: answer.uuid }
+                            })}
+                        >
+                            {fields.map((field, index) => (
+                                <FormField
+                                    key={field.uuid}
+                                    control={form.control}
+                                    name={`answers.${index}.text`}
+                                    render={(fieldObj) => (
+                                        <SortableAnswer
+                                            handleRemove={removeFromAnswers}
+                                            field={fieldObj.field}
+                                            id={field.uuid}
+                                            text={field.text}
+                                        />
+                                    )}
+                                />
+                            ))}
+                        </SortableContext>
+                    </DndContext>
+                    <Button
+                        type="button"
+                        onClick={() => append({ text: '', uuid: uuidv4() })}
+                    >
+                        Add Answer
+                    </Button>
                 </FormItem>
 
                 <Button type="submit">Submit</Button>

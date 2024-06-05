@@ -24,7 +24,7 @@ import {
     Trash,
     User,
     X,
-    GripVertical
+    GripVertical,
 } from 'lucide-react'
 
 import {
