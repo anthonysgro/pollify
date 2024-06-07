@@ -26,7 +26,7 @@ import { TopPSelector } from './components/top-p-selector'
 import { models, types } from './data/models'
 import { presets } from './data/presets'
 
-import FreePollForm from './creations/free-poll'
+import FreePollForm from './creations/start-from-scratch'
 
 export const metadata: Metadata = {
     title: 'Playground',
