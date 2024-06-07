@@ -32,15 +32,21 @@ import {
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FC } from 'react'
+import { FC, useRef, useState } from 'react'
 import {
     ControllerRenderProps,
     FieldArrayWithId,
     useFieldArray,
     useForm,
 } from 'react-hook-form'
+import { FilePond, registerPlugin } from 'react-filepond'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond/dist/filepond.min.css'
 import { z } from 'zod'
 import { CSS } from '@dnd-kit/utilities'
+import { FilePondFile } from 'filepond'
 
 const HandleIcon = ({ id }: { id: string }) => {
     const { attributes, listeners, setNodeRef } = useDraggable({
@@ -54,7 +60,7 @@ const HandleIcon = ({ id }: { id: string }) => {
             {...listeners}
             className="cursor-grab"
         >
-            <Icons.gripVertical className="hover:cursor-move" />
+            <Icons.chevronsUpDown className="hover:cursor-move" size={18} />
         </div>
     )
 }
@@ -93,6 +99,8 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
     answer,
     handleRemove,
 }) => {
+    registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
+    
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({
             id: answer.id,
@@ -152,6 +160,8 @@ const SortableList: React.FC = () => {
             coordinateGetter: sortableKeyboardCoordinates,
         }),
     )
+    
+    const [files, setFiles] = useState<File[]>([])
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -177,9 +187,9 @@ const SortableList: React.FC = () => {
         formData.append('title', values.title)
         formData.append('description', values.description || '')
         formData.append('answers', JSON.stringify(values.answers))
-        // files.forEach((file) => {
-        //     formData.append('file', file)
-        // })
+        files.forEach((file) => {
+            formData.append('file', file)
+        })
         console.log(formData)
     }
 
@@ -235,6 +245,29 @@ const SortableList: React.FC = () => {
                         </FormItem>
                     )}
                 />
+                <FormItem>
+                    <FormLabel>Image</FormLabel>
+                    <FormControl>
+                        <FilePond 
+                            files={files}
+                            acceptedFileTypes={['image/*']}
+                            fileValidateTypeDetectType={(source, type) => new Promise((resolve, reject) => {
+                                resolve(type);
+                             })
+                            }
+                            onupdatefiles={(fileItems: FilePondFile[]) => {
+                                setFiles(
+                                    fileItems.map(
+                                        (fileItem) => fileItem.file as File,
+                                    ),
+                                )
+                            }}
+                            allowMultiple={false}
+                            name="files"
+                            labelIdle='Drag & Drop your file or <span className="filepond--label-action">Browse</span>'
+                        />
+                    </FormControl>
+                </FormItem>                
                 <FormItem>
                     <FormLabel>Answers</FormLabel>
                     <DndContext

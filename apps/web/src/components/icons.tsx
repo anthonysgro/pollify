@@ -24,7 +24,7 @@ import {
     Trash,
     User,
     X,
-    GripVertical,
+    ChevronsUpDown,
 } from 'lucide-react'
 
 import {
@@ -67,7 +67,7 @@ export const Icons = {
     moon: Moon,
     laptop: Laptop,
     dragHandleVerticalIcon: DragHandleVerticalIcon,
-    gripVertical: GripVertical,
+    chevronsUpDown: ChevronsUpDown,
     logo: (props: IconProps) => (
         <svg
             xmlns="http://www.w3.org/2000/svg"
