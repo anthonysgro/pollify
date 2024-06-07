@@ -58,9 +58,9 @@ const HandleIcon = ({ id }: { id: string }) => {
             ref={setNodeRef}
             {...attributes}
             {...listeners}
-            className="cursor-grab"
+            className="flex items-center"
         >
-            <Icons.chevronsUpDown className="hover:cursor-move" size={18} />
+            <Icons.chevronsUpDown className="hover:cursor-move mr-1" size={18} />
         </div>
     )
 }
@@ -98,9 +98,7 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
     index,
     answer,
     handleRemove,
-}) => {
-    registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
-    
+}) => {    
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({
             id: answer.id,
@@ -115,23 +113,28 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
 
     return (
         <FormItem
-            className="flex flex-row items-center"
+            className="flex flex-col items-start"
             ref={setNodeRef}
             {...attributes}
             style={style}
         >
-            <HandleIcon id={answer.id} />
-            <FormControl>
-                <Input placeholder={answer.placeholder} {...field} />
-            </FormControl>
-            <div className="flex flex-row w-auto">
-                <FormDescription></FormDescription>
+            <div className="flex flex-row w-[100%]">
+                <HandleIcon id={answer.id} />
+                <FormControl>
+                    <Input className="" placeholder={answer.placeholder} {...field} />
+                </FormControl>
+                <div className="flex flex-col justify-center relative right-6">
+                <Icons.close
+                    className="hover:cursor-pointer sticky"
+                    onClick={() => handleRemove(answer.id)}
+                    size={18}
+                />
+                </div>
+            </div>
+            <div className="">
                 <FormMessage />
             </div>
-            <Icons.close
-                className="hover:cursor-pointer"
-                onClick={() => handleRemove(answer.id)}
-            />
+
         </FormItem>
     )
 }
@@ -154,6 +157,8 @@ export const formSchema = z.object({
 })
 
 const SortableList: React.FC = () => {
+    registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
+
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
@@ -215,6 +220,7 @@ const SortableList: React.FC = () => {
     }
 
     return (
+        <div className="p-8 bg-card text-card-foreground rounded-xl border">
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -224,7 +230,7 @@ const SortableList: React.FC = () => {
                         <FormItem>
                             <FormLabel>Title</FormLabel>
                             <FormControl>
-                                <Input placeholder="type here..." {...field} />
+                                <Input className="" placeholder="type here..." {...field} />
                             </FormControl>
                             <FormDescription></FormDescription>
                             <FormMessage />
@@ -238,7 +244,7 @@ const SortableList: React.FC = () => {
                         <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Input placeholder="type here..." {...field} />
+                                <Input className="" placeholder="type here..." {...field} />
                             </FormControl>
                             <FormDescription></FormDescription>
                             <FormMessage />
@@ -308,6 +314,7 @@ const SortableList: React.FC = () => {
                 <Button type="submit">Submit</Button>
             </form>
         </Form>
+        </div>
     )
 }
 
