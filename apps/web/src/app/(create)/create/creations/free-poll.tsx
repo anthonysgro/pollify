@@ -11,6 +11,7 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Progress } from '@/components/ui/progress'
 import {
     DndContext,
     DragEndEvent,
@@ -67,6 +68,8 @@ const SortableList: React.FC = () => {
     )
 
     const [files, setFiles] = useState<File[]>([])
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+    const [progress, setProgress] = useState<number>(0)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -87,6 +90,20 @@ const SortableList: React.FC = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setIsSubmitting(true)
+        setProgress(0)
+
+        // Function to increment progress
+        const incrementProgress = () => {
+            setProgress((prevProgress) => {
+                if (prevProgress < 90) {
+                    return prevProgress + 0.5 // Increment by 10
+                }
+                return prevProgress
+            })
+        }
+        const progressInterval = setInterval(incrementProgress, 25) // Increment every 500ms
+
         const formData = new FormData()
 
         formData.append('title', values.title)
@@ -114,9 +131,18 @@ const SortableList: React.FC = () => {
             }
 
             const data = await response.json()
+
             console.log(data)
         } catch (error) {
             console.error('Error submitting form:', error)
+        } finally {
+            // Simulate some delay for the progress to reach 100% smoothly
+            setTimeout(() => {
+                clearInterval(progressInterval) // Clear the interval
+                setProgress(100) // Set progress to 100%
+
+                setTimeout(() => setIsSubmitting(false), 1000)
+            }, 1000)
         }
     }
 
@@ -157,7 +183,7 @@ const SortableList: React.FC = () => {
                                 <FormLabel>Title</FormLabel>
                                 <FormControl>
                                     <Input
-                                        className=""
+                                        className="disabled"
                                         placeholder="type here..."
                                         {...field}
                                     />
@@ -249,6 +275,7 @@ const SortableList: React.FC = () => {
                         </Button>
                     </FormItem>
                     <Button type="submit">Submit</Button>
+                    {isSubmitting && <Progress value={progress} />}
                 </form>
             </Form>
         </div>
