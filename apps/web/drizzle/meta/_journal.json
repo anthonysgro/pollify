@@ -22,6 +22,13 @@
       "when": 1717131026919,
       "tag": "0002_flippant_spiral",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1717961147295,
+      "tag": "0003_amusing_gargoyle",
+      "breakpoints": true
     }
   ]
 }

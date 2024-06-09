@@ -38,11 +38,12 @@ import {
     FieldArrayWithId,
     useFieldArray,
     useForm,
+    useWatch,
 } from 'react-hook-form'
 import { FilePond, registerPlugin } from 'react-filepond'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import 'filepond/dist/filepond.min.css'
 import { z } from 'zod'
 import { CSS } from '@dnd-kit/utilities'
@@ -60,7 +61,10 @@ const HandleIcon = ({ id }: { id: string }) => {
             {...listeners}
             className="flex items-center"
         >
-            <Icons.chevronsUpDown className="hover:cursor-move mr-1" size={18} />
+            <Icons.chevronsUpDown
+                className="hover:cursor-move mr-1"
+                size={18}
+            />
         </div>
     )
 }
@@ -98,7 +102,7 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
     index,
     answer,
     handleRemove,
-}) => {    
+}) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({
             id: answer.id,
@@ -121,20 +125,23 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
             <div className="flex flex-row w-[100%]">
                 <HandleIcon id={answer.id} />
                 <FormControl>
-                    <Input className="" placeholder={answer.placeholder} {...field} />
+                    <Input
+                        className=""
+                        placeholder={answer.placeholder}
+                        {...field}
+                    />
                 </FormControl>
                 <div className="flex flex-col justify-center relative right-6">
-                <Icons.close
-                    className="hover:cursor-pointer sticky"
-                    onClick={() => handleRemove(answer.id)}
-                    size={18}
-                />
+                    <Icons.close
+                        className="hover:cursor-pointer sticky"
+                        onClick={() => handleRemove(answer.id)}
+                        size={18}
+                    />
                 </div>
             </div>
             <div className="">
                 <FormMessage />
             </div>
-
         </FormItem>
     )
 }
@@ -157,7 +164,7 @@ export const formSchema = z.object({
 })
 
 const SortableList: React.FC = () => {
-    registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
+    registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType)
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -165,7 +172,7 @@ const SortableList: React.FC = () => {
             coordinateGetter: sortableKeyboardCoordinates,
         }),
     )
-    
+
     const [files, setFiles] = useState<File[]>([])
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -186,16 +193,33 @@ const SortableList: React.FC = () => {
         name: 'answers',
     })
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const formData = new FormData()
 
         formData.append('title', values.title)
         formData.append('description', values.description || '')
-        formData.append('answers', JSON.stringify(values.answers))
+        formData.append('answers', JSON.stringify(values.answers.map((answer, i) => {
+            return { ...answer, index: i}
+        })))
         files.forEach((file) => {
-            formData.append('file', file)
+            formData.append('image', file)
         })
-        console.log(formData)
+
+        try {
+            const response = await fetch('/api/polls', {
+                method: 'POST',
+                body: formData,
+            })
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok')
+            }
+
+            const data = await response.json()
+            console.log(data)
+        } catch (error) {
+            console.error('Error submitting form:', error)
+        }
     }
 
     const handleRemoveAnswer = (id: string) => {
@@ -215,105 +239,120 @@ const SortableList: React.FC = () => {
             const newIndex = fields.findIndex(
                 (answer) => answer.id === over?.id,
             )
-            replace(arrayMove(fields, oldIndex, newIndex))
+
+            replace(arrayMove(form.getValues('answers'), oldIndex, newIndex))
         }
     }
 
     return (
         <div className="p-8 bg-card text-card-foreground rounded-xl border">
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Title</FormLabel>
-                            <FormControl>
-                                <Input className="" placeholder="type here..." {...field} />
-                            </FormControl>
-                            <FormDescription></FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                                <Input className="" placeholder="type here..." {...field} />
-                            </FormControl>
-                            <FormDescription></FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormItem>
-                    <FormLabel>Image</FormLabel>
-                    <FormControl>
-                        <FilePond 
-                            files={files}
-                            acceptedFileTypes={['image/*']}
-                            fileValidateTypeDetectType={(source, type) => new Promise((resolve, reject) => {
-                                resolve(type);
-                             })
-                            }
-                            onupdatefiles={(fileItems: FilePondFile[]) => {
-                                setFiles(
-                                    fileItems.map(
-                                        (fileItem) => fileItem.file as File,
-                                    ),
-                                )
-                            }}
-                            allowMultiple={false}
-                            name="files"
-                            labelIdle='Drag & Drop your file or <span className="filepond--label-action">Browse</span>'
-                        />
-                    </FormControl>
-                </FormItem>                
-                <FormItem>
-                    <FormLabel>Answers</FormLabel>
-                    <DndContext
-                        sensors={sensors}
-                        collisionDetection={closestCenter}
-                        onDragEnd={handleDragEnd}
-                        modifiers={[restrictToWindowEdges]}
-                    >
-                        <SortableContext
-                            items={fields}
-                            strategy={verticalListSortingStrategy}
-                        >
-                            {fields.map((field, index) => {
-                                return (
-                                    <FormField
-                                        key={field.id}
-                                        control={form.control}
-                                        name={`answers.${index}.text`}
-                                        render={(fieldRenderProps) => (
-                                            <SortableAnswer
-                                                field={fieldRenderProps.field}
-                                                index={index}
-                                                handleRemove={
-                                                    handleRemoveAnswer
-                                                }
-                                                answer={field}
-                                            />
-                                        )}
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                >
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Title</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className=""
+                                        placeholder="type here..."
+                                        {...field}
                                     />
-                                )
-                            })}
-                        </SortableContext>
-                    </DndContext>
-                    <Button type="button" onClick={handleAddAnswer}>
-                        Add Answer
-                    </Button>
-                </FormItem>
-                <Button type="submit">Submit</Button>
-            </form>
-        </Form>
+                                </FormControl>
+                                <FormDescription></FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Description</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className=""
+                                        placeholder="type here..."
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormDescription></FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormItem>
+                        <FormLabel>Image</FormLabel>
+                        <FormControl>
+                            <FilePond
+                                files={files}
+                                acceptedFileTypes={['image/*']}
+                                fileValidateTypeDetectType={(source, type) =>
+                                    new Promise((resolve, reject) => {
+                                        resolve(type)
+                                    })
+                                }
+                                onupdatefiles={(fileItems: FilePondFile[]) => {
+                                    setFiles(
+                                        fileItems.map(
+                                            (fileItem) => fileItem.file as File,
+                                        ),
+                                    )
+                                }}
+                                allowMultiple={false}
+                                name="files"
+                                labelIdle='Drag & Drop your file or <span className="filepond--label-action">Browse</span>'
+                            />
+                        </FormControl>
+                    </FormItem>
+                    <FormItem>
+                        <FormLabel>Answers</FormLabel>
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleDragEnd}
+                            modifiers={[restrictToWindowEdges]}
+                        >
+                            <SortableContext
+                                items={fields}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                {fields.map((field, index) => {
+                                    return (
+                                        <FormField
+                                            key={field.id}
+                                            control={form.control}
+                                            name={`answers.${index}.text`}
+                                            render={(fieldRenderProps) => (
+                                                <SortableAnswer
+                                                    field={
+                                                        fieldRenderProps.field
+                                                    }
+                                                    index={index}
+                                                    handleRemove={
+                                                        handleRemoveAnswer
+                                                    }
+                                                    answer={field}
+                                                />
+                                            )}
+                                        />
+                                    )
+                                })}
+                            </SortableContext>
+                        </DndContext>
+                        <Button type="button" onClick={handleAddAnswer}>
+                            Add Answer
+                        </Button>
+                    </FormItem>
+                    <Button type="submit">Submit</Button>
+                </form>
+            </Form>
         </div>
     )
 }

@@ -4,20 +4,20 @@ import {
     uuid,
     timestamp,
     varchar,
-    integer,
+    bigint,
     boolean,
 } from 'drizzle-orm/pg-core'
-import { sql } from 'drizzle-orm'
+import { min, sql } from 'drizzle-orm'
 
-export const votes = pgTable('votes', {
+export const VOTES_TABLE = pgTable('votes', {
     voteId: uuid('vote_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
         .notNull(),
-    answerId: uuid('answer_id').references(() => answers.answerId, {
+    answerId: uuid('answer_id').references(() => ANSWERS_TABLE.answerId, {
         onDelete: 'cascade',
     }),
-    voterId: uuid('voter_id').references(() => voters.voterId, {
+    voterId: uuid('voter_id').references(() => VOTERS_TABLE.voterId, {
         onDelete: 'set null',
     }),
     voteTimestamp: timestamp('vote_timestamp', {
@@ -33,7 +33,7 @@ export const votes = pgTable('votes', {
     }).$onUpdateFn(() => new Date()),
 })
 
-export const polls = pgTable('polls', {
+export const POLLS_TABLE = pgTable('polls', {
     pollId: uuid('poll_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
@@ -41,7 +41,7 @@ export const polls = pgTable('polls', {
     title: varchar('title', { length: 1024 }).notNull(),
     description: varchar('description', { length: 1024 }),
     image: varchar('image', { length: 1024 }),
-    pollType: integer('poll_type'),
+    pollType: bigint('poll_type', { mode: 'number' }),
     createdAt: timestamp('created_at', {
         precision: 6,
         withTimezone: true,
@@ -52,15 +52,16 @@ export const polls = pgTable('polls', {
     }).$onUpdateFn(() => new Date()),
 })
 
-export const answers = pgTable('answers', {
+export const ANSWERS_TABLE = pgTable('answers', {
     answerId: uuid('answer_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
         .notNull(),
-    pollId: uuid('poll_id').references(() => polls.pollId, {
+    pollId: uuid('poll_id').references(() => POLLS_TABLE.pollId, {
         onDelete: 'cascade',
     }),
-    answer_text: varchar('answer_text', { length: 1024 }).notNull(),
+    text: varchar('text', { length: 1024 }).notNull(),
+    index: bigint('index', { mode: 'number' }).notNull(),
     createdAt: timestamp('created_at', {
         precision: 6,
         withTimezone: true,
@@ -71,7 +72,7 @@ export const answers = pgTable('answers', {
     }).$onUpdateFn(() => new Date()),
 })
 
-export const voters = pgTable('voters', {
+export const VOTERS_TABLE = pgTable('voters', {
     voterId: uuid('voter_id')
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
