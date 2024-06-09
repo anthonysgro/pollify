@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import formidable from 'formidable'
 import { ZodError, z } from 'zod'
 import { v4 as uuidv4 } from 'uuid'
-import { zfd } from "zod-form-data";
+import { zfd } from 'zod-form-data'
 
 // To handle a GET request to /api
 // eslint-disable-next-line no-unused-vars
@@ -25,53 +25,75 @@ const ACCEPTED_IMAGE_TYPES = [
 ]
 
 const answerSchema = z.array(
-        z.object({
+    z.object({
         text: z.string(),
         placeholder: z.string().optional(),
-        index: z.number()
-            .min(0, "Answer index minimum is 0")
-            .max(49, "Only 50 answers allowed maximum"),
-    })
+        index: z
+            .number()
+            .min(0, 'Answer index minimum is 0')
+            .max(49, 'Only 50 answers allowed maximum'),
+    }),
 )
 
 const pollSchema = zfd.formData({
     title: zfd.text(),
     description: z.string().optional(),
     answers: zfd.text(),
-    image: z.instanceof(File, { message: "Provided image is not of type File"})  
+    image: z
+        .instanceof(File, { message: 'Provided image is not of type File' })
         .optional()
-        .refine((file) => !file || (file && file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`))
-        .refine((file) => !file || (file && ACCEPTED_IMAGE_TYPES.includes(file.type)),
-        '.jpg, .jpeg, .png and .webp files are accepted.',
-    )
-});
+        .refine(
+            (file) =>
+                !file ||
+                (file && file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`),
+        )
+        .refine(
+            (file) =>
+                !file || (file && ACCEPTED_IMAGE_TYPES.includes(file.type)),
+            '.jpg, .jpeg, .png and .webp files are accepted.',
+        ),
+})
 
 // To handle a POST request to /api
 // eslint-disable-next-line no-unused-vars
 export async function POST(req: NextRequest, res: NextResponse) {
     try {
-
         const requestFormData = await req.formData()
-        const { title, description, answers, image } = pollSchema.parse(requestFormData);
+        const { title, description, answers, image } =
+            pollSchema.parse(requestFormData)
         const parsedAnswers = answerSchema.parse(JSON.parse(answers))
 
-        let insertedPollId: string | undefined = "";
+        let insertedPollId: string | undefined = ''
 
         await db.transaction(async (tx) => {
-            const [insertedPoll] = await tx.insert(POLLS_TABLE).values({ title, description, image: "", pollType: 1}).returning()
-                .catch((err) => { throw new Error("Error inserting poll into DB:", err) });
+            const [insertedPoll] = await tx
+                .insert(POLLS_TABLE)
+                .values({ title, description, image: '', pollType: 1 })
+                .returning()
+                .catch((err) => {
+                    throw new Error('Error inserting poll into DB:', err)
+                })
 
             parsedAnswers.forEach(async (ans) => {
-                await tx.insert(ANSWERS_TABLE).values({ text: ans.text, pollId: insertedPoll?.pollId, index: ans.index }) 
-                    .catch((err) => { throw new Error("Error inserting answer into DB:", err) });
+                await tx
+                    .insert(ANSWERS_TABLE)
+                    .values({
+                        text: ans.text,
+                        pollId: insertedPoll?.pollId,
+                        index: ans.index,
+                    })
+                    .catch((err) => {
+                        throw new Error('Error inserting answer into DB:', err)
+                    })
             })
 
             insertedPollId = insertedPoll?.pollId
-          });
+        })
 
-        if (!insertedPollId) throw new Error("Server error saving poll to database")
+        if (!insertedPollId)
+            throw new Error('Server error saving poll to database')
 
-            // If validation passes, proceed with your logic
+        // If validation passes, proceed with your logic
         return NextResponse.json({ message: 'Success', pollId: insertedPollId })
     } catch (err: any) {
         // If validation fails, return an error response

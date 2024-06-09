@@ -198,9 +198,14 @@ const SortableList: React.FC = () => {
 
         formData.append('title', values.title)
         formData.append('description', values.description || '')
-        formData.append('answers', JSON.stringify(values.answers.map((answer, i) => {
-            return { ...answer, index: i}
-        })))
+        formData.append(
+            'answers',
+            JSON.stringify(
+                values.answers.map((answer, i) => {
+                    return { ...answer, index: i }
+                }),
+            ),
+        )
         files.forEach((file) => {
             formData.append('image', file)
         })
