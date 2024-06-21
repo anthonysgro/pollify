@@ -1,14 +1,6 @@
-# Turborepo starter
+# Pollify Readme
 
-This is an official starter Turborepo.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
+Welcome to Pollify, this is our Turborepo where we store most things related to the application!
 
 ## What's inside?
 
@@ -16,9 +8,8 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
--   `docs`: a [Next.js](https://nextjs.org/) app
--   `web`: another [Next.js](https://nextjs.org/) app
--   `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+-   `web`: The [Next.js](https://nextjs.org/) app used for the website and immediate backend apis
+-   `cdk`: The [CDK](https://aws.amazon.com/cdk/) app used for AWS infrastructure
 -   `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 -   `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
@@ -37,8 +28,8 @@ This Turborepo has some additional tools already setup for you:
 To build all apps and packages, run the following command:
 
 ```
-cd my-turborepo
-pnpm build
+cd ./pollify
+npm build
 ```
 
 ### Develop
@@ -46,28 +37,52 @@ pnpm build
 To develop all apps and packages, run the following command:
 
 ```
-cd my-turborepo
-pnpm dev
+cd ./pollify
+npm dev
 ```
 
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
+To develop just the webapp:
 ```
-cd my-turborepo
-npx turbo login
+cd ./pollify
+npm run dev --workspace apps/web
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## Integrations and Setup
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+### AWS
+
+
+### Postgres
+We maintain EC2 instances in AWS that own our postgres instances with 30GB of storage for testing purposes. See ec2 host mapping here:
 
 ```
-npx turbo link
+beta - ec2-user@ec2-54-226-51-25.compute-1.amazonaws.com
+gamma - TBD
+prod - TBD
 ```
+
+To access, connect using the .pem keypair for each environment like so:
+```zsh
+ssh -i pollify-beta-postgres-keypair.pem ec2-user@ec2-54-226-51-25.compute-1.amazonaws.com
+```
+
+You should only connect directly to the EC2 host for root user actions like db upgrades and maintenance. Some common commands for the postgres admin:
+
+Edit postgres connections pg_hba.conf 
+```zsh
+sudo nano /var/lib/pgsql/data/pg_hba.conf
+```
+
+Edit postgres config
+```zsh
+sudo nano /var/lib/pgsql/data/postgresql.conf
+```
+
+Normally, we can connect to the DB by using our username + password combinations. Please contact the db admin for credentials. Example connection string:
+```
+postgres://{username}:{password}@ec2-54-226-51-25.compute-1.amazonaws.com:5432/pollify_beta
+```
+
 
 ## Useful Links
 
