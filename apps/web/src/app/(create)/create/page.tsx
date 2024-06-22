@@ -18,15 +18,16 @@ import { Textarea } from '@/components/ui/textarea'
 import { MaxLengthSelector } from './components/maxlength-selector'
 import { ModelSelector } from './components/model-selector'
 import { PresetActions } from './components/preset-actions'
-import { PresetSave } from './components/preset-save'
-import { PresetSelector } from './components/preset-selector'
+import { PollSave } from './components/poll-save'
+import { PollTypeSelector } from './components/polltype-selector'
 import { PresetShare } from './components/preset-share'
 import { TemperatureSelector } from './components/temperature-selector'
 import { TopPSelector } from './components/top-p-selector'
 import { models, types } from './data/models'
-import { presets } from './data/presets'
+import { pollTypes } from './data/presets'
 
 import FreePollForm from './creations/free-poll'
+import { Icons } from '@/components/icons'
 
 export const metadata: Metadata = {
     title: 'Playground',
@@ -36,40 +37,23 @@ export const metadata: Metadata = {
 export default function PlaygroundPage() {
     return (
         <>
-            <div className="md:hidden">
-                <Image
-                    src="/examples/playground-light.png"
-                    width={1280}
-                    height={916}
-                    alt="Playground"
-                    className="block dark:hidden"
-                />
-                <Image
-                    src="/examples/playground-dark.png"
-                    width={1280}
-                    height={916}
-                    alt="Playground"
-                    className="hidden dark:block"
-                />
-            </div>
-            <div className="hidden h-full flex-col md:flex">
-                <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+            <div className="h-full flex-col flex">
+                {/* <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
                     <h2 className="text-lg font-semibold">Playground</h2>
                     <div className="ml-auto flex w-full space-x-2 sm:justify-end">
-                        <PresetSelector presets={presets} />
-                        <PresetSave />
+                        <PollTypeSelector pollTypes={pollTypes} />
+                        <PollSave />
                         <div className="hidden space-x-2 md:flex">
-                            {/* <CodeViewer /> */}
                             <PresetShare />
                         </div>
                         <PresetActions />
                     </div>
-                </div>
+                </div> 
                 <Separator />
+                */}
                 <Tabs defaultValue="complete" className="flex-1">
-                    <div className="container h-full py-6">
-                        <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
-                            <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+                    <div className="container h-full py-6 px-10 md:px-36 lg:px-60 xl:px-96">
+                            {/* <div className="hidden flex-col space-y-4 sm:flex md:order-2">
                                 <div className="grid gap-2">
                                     <HoverCard openDelay={200}>
                                         <HoverCardTrigger asChild>
@@ -94,180 +78,32 @@ export default function PlaygroundPage() {
                                             <span className="sr-only">
                                                 Complete
                                             </span>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="none"
-                                                className="h-5 w-5"
-                                            >
-                                                <rect
-                                                    x="4"
-                                                    y="3"
-                                                    width="12"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="4"
-                                                    y="7"
-                                                    width="12"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="4"
-                                                    y="11"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="4"
-                                                    y="15"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="8.5"
-                                                    y="11"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="8.5"
-                                                    y="15"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="13"
-                                                    y="11"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                            </svg>
+                                            <Icons.completeEditor />
                                         </TabsTrigger>
                                         <TabsTrigger value="insert">
                                             <span className="sr-only">
                                                 Insert
                                             </span>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="none"
-                                                className="h-5 w-5"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M14.491 7.769a.888.888 0 0 1 .287.648.888.888 0 0 1-.287.648l-3.916 3.667a1.013 1.013 0 0 1-.692.268c-.26 0-.509-.097-.692-.268L5.275 9.065A.886.886 0 0 1 5 8.42a.889.889 0 0 1 .287-.64c.181-.17.427-.267.683-.269.257-.002.504.09.69.258L8.903 9.87V3.917c0-.243.103-.477.287-.649.183-.171.432-.268.692-.268.26 0 .509.097.692.268a.888.888 0 0 1 .287.649V9.87l2.245-2.102c.183-.172.432-.269.692-.269.26 0 .508.097.692.269Z"
-                                                    fill="currentColor"
-                                                ></path>
-                                                <rect
-                                                    x="4"
-                                                    y="15"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="8.5"
-                                                    y="15"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="13"
-                                                    y="15"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                            </svg>
+                                            <Icons.insertEditor />
                                         </TabsTrigger>
                                         <TabsTrigger value="edit">
                                             <span className="sr-only">
                                                 Edit
                                             </span>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="none"
-                                                className="h-5 w-5"
-                                            >
-                                                <rect
-                                                    x="4"
-                                                    y="3"
-                                                    width="12"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="4"
-                                                    y="7"
-                                                    width="12"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="4"
-                                                    y="11"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="4"
-                                                    y="15"
-                                                    width="4"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <rect
-                                                    x="8.5"
-                                                    y="11"
-                                                    width="3"
-                                                    height="2"
-                                                    rx="1"
-                                                    fill="currentColor"
-                                                ></rect>
-                                                <path
-                                                    d="M17.154 11.346a1.182 1.182 0 0 0-1.671 0L11 15.829V17.5h1.671l4.483-4.483a1.182 1.182 0 0 0 0-1.671Z"
-                                                    fill="currentColor"
-                                                ></path>
-                                            </svg>
+                                            <Icons.editEditor />
                                         </TabsTrigger>
                                     </TabsList>
                                 </div>
-                                {/* <ModelSelector types={types} models={models} />
+                                <ModelSelector types={types} models={models} />
                                 <TemperatureSelector defaultValue={[0.56]} />
                                 <MaxLengthSelector defaultValue={[256]} />
-                                <TopPSelector defaultValue={[0.9]} /> */}
-                            </div>
+                                <TopPSelector defaultValue={[0.9]} />
+                            </div> */}
                             <div className="md:order-1">
-                                <TabsContent
+                                {/* <TabsContent
                                     value="complete"
                                     className="mt-0 border-0 p-0"
-                                >
+                                > */}
                                     <div className="flex h-full flex-col space-y-4">
                                         <FreePollForm />
                                         {/* <Textarea
@@ -275,7 +111,7 @@ export default function PlaygroundPage() {
                       className="min-h-[400px] flex-1 p-4 md:min-h-[700px] lg:min-h-[700px]"
                     /> */}
                                     </div>
-                                </TabsContent>
+                                {/* </TabsContent>
                                 <TabsContent
                                     value="insert"
                                     className="mt-0 border-0 p-0"
@@ -338,9 +174,8 @@ export default function PlaygroundPage() {
                                             </Button>
                                         </div>
                                     </div>
-                                </TabsContent>
+                                </TabsContent> */}
                             </div>
-                        </div>
                     </div>
                 </Tabs>
             </div>

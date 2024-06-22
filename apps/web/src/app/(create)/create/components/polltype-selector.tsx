@@ -21,15 +21,15 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover'
 
-import { Preset } from '../data/presets'
+import { PollType } from '../data/presets'
 
-interface PresetSelectorProps extends PopoverProps {
-    presets: Preset[]
+interface PollTypeSelectorProps extends PopoverProps {
+    pollTypes: PollType[]
 }
 
-export function PresetSelector({ presets, ...props }: PresetSelectorProps) {
+export function PollTypeSelector({ pollTypes, ...props }: PollTypeSelectorProps) {
     const [open, setOpen] = React.useState(false)
-    const [selectedPreset, setSelectedPreset] = React.useState<Preset>()
+    const [selectedPollType, setSelectedPollType] = React.useState<PollType>()
     const router = useRouter()
 
     return (
@@ -42,7 +42,7 @@ export function PresetSelector({ presets, ...props }: PresetSelectorProps) {
                     aria-expanded={open}
                     className="flex-1 justify-between md:max-w-[200px] lg:max-w-[300px]"
                 >
-                    {selectedPreset ? selectedPreset.name : 'Form type'}
+                    {selectedPollType ? selectedPollType.name : 'Form type'}
                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
@@ -50,21 +50,21 @@ export function PresetSelector({ presets, ...props }: PresetSelectorProps) {
                 <Command>
                     <CommandInput placeholder="Search form types..." />
                     <CommandList>
-                        <CommandEmpty>No presets found.</CommandEmpty>
+                        <CommandEmpty>No poll types found.</CommandEmpty>
                         <CommandGroup heading="Examples">
-                            {presets.map((preset) => (
+                            {pollTypes.map((pollType) => (
                                 <CommandItem
-                                    key={preset.id}
+                                    key={pollType.id}
                                     onSelect={() => {
-                                        setSelectedPreset(preset)
+                                        setSelectedPollType(pollType)
                                         setOpen(false)
                                     }}
                                 >
-                                    {preset.name}
+                                    {pollType.name}
                                     <CheckIcon
                                         className={cn(
                                             'ml-auto h-4 w-4',
-                                            selectedPreset?.id === preset.id
+                                            selectedPollType?.id === pollType.id
                                                 ? 'opacity-100'
                                                 : 'opacity-0',
                                         )}

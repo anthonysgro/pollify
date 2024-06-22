@@ -54,7 +54,7 @@ export function PresetActions() {
                         onSelect={() => setShowDeleteDialog(true)}
                         className="text-red-600"
                     >
-                        Delete preset
+                        Delete poll
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -114,7 +114,7 @@ export function PresetActions() {
                             Are you absolutely sure?
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action cannot be undone. This preset will no
+                            This action cannot be undone. This poll will no
                             longer be accessible by you or others you&apos;ve
                             shared it with.
                         </AlertDialogDescription>
@@ -127,7 +127,7 @@ export function PresetActions() {
                                 setShowDeleteDialog(false)
                                 toast({
                                     description:
-                                        'This preset has been deleted.',
+                                        'This poll has been deleted.',
                                 })
                             }}
                         >

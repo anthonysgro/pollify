@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-export function PresetSave() {
+export function PollSave() {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -19,11 +19,9 @@ export function PresetSave() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[475px]">
                 <DialogHeader>
-                    <DialogTitle>Save preset</DialogTitle>
+                    <DialogTitle>Save Poll</DialogTitle>
                     <DialogDescription>
-                        This will save the current playground state as a preset
-                        which you can access later or share with others.
-                    </DialogDescription>
+                        This will save the current poll which you can access, edit, and publish.                    </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
