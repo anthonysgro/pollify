@@ -68,8 +68,19 @@ const SortableList: React.FC = () => {
     )
 
     const [files, setFiles] = useState<File[]>([])
+    const [submissionError, setSubmissionError] = useState<Error | null>(null);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [progress, setProgress] = useState<number>(0)
+    const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
+    const [isDragging, setIsDragging] = useState<boolean>(false)
+
+    const handleMouseEnter = (id: string) => {
+        if (!isDragging) setHoveredId(id);
+    };
+
+    const handleMouseLeave = () => {
+        if (!isDragging) setHoveredId(undefined);
+    };
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -134,7 +145,9 @@ const SortableList: React.FC = () => {
 
             console.log(data)
         } catch (error) {
-            console.error('Error submitting form:', error)
+            if (error instanceof Error) {
+                setSubmissionError(error);
+            }
         } finally {
             // Simulate some delay for the progress to reach 100% smoothly
             setTimeout(() => {
@@ -155,6 +168,7 @@ const SortableList: React.FC = () => {
     }
 
     const handleDragEnd = (event: DragEndEvent) => {
+        setIsDragging(false)
         const { active, over } = event
         if (active.id !== over?.id) {
             const oldIndex = fields.findIndex(
@@ -213,7 +227,7 @@ const SortableList: React.FC = () => {
                     />
                     <FormItem>
                         <FormLabel>Image</FormLabel>
-                        <FormControl>
+                        <FormControl className="w-[100%]">
                             <FilePond
                                 files={files}
                                 acceptedFileTypes={['image/*']}
@@ -240,6 +254,7 @@ const SortableList: React.FC = () => {
                         <DndContext
                             sensors={sensors}
                             collisionDetection={closestCenter}
+                            onDragStart={() => setIsDragging(true)}
                             onDragEnd={handleDragEnd}
                             modifiers={[restrictToWindowEdges]}
                         >
@@ -263,6 +278,10 @@ const SortableList: React.FC = () => {
                                                         handleRemoveAnswer
                                                     }
                                                     answer={field}
+                                                    handleMouseEnter={() => handleMouseEnter(field.id)}
+                                                    handleMouseLeave={handleMouseLeave}
+                                                    hoveredId={hoveredId}
+                                                    isDragging={isDragging}
                                                 />
                                             )}
                                         />

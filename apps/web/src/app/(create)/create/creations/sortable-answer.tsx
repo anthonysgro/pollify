@@ -1,14 +1,14 @@
 import { Icons } from '@/components/icons'
 import { defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
 
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { ControllerRenderProps, FieldArrayWithId } from 'react-hook-form'
 import { CSS } from '@dnd-kit/utilities'
 import { FormControl, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useDraggable } from '@dnd-kit/core'
 
-const HandleIcon = ({ id }: { id: string }) => {
+const HandleIcon = ({ id, hoveredId }: { id: string, hoveredId: string | undefined }) => {
     const { attributes, listeners, setNodeRef } = useDraggable({
         id,
     })
@@ -18,10 +18,10 @@ const HandleIcon = ({ id }: { id: string }) => {
             ref={setNodeRef}
             {...attributes}
             {...listeners}
-            className="flex items-center"
+            className={`flex items-center ${hoveredId === id ? "visible" : "invisible"} hover:cursor-move`}
         >
             <Icons.chevronsUpDown
-                className="hover:cursor-move mr-1"
+                className="mr-1"
                 size={18}
             />
         </div>
@@ -54,6 +54,10 @@ interface SortableAnswerProps {
         'answers',
         'id'
     >
+    handleMouseEnter: (id: string) => void
+    handleMouseLeave: () => void
+    hoveredId: string | undefined
+    isDragging: boolean
 }
 
 const SortableAnswer: FC<SortableAnswerProps> = ({
@@ -61,6 +65,10 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
     index,
     answer,
     handleRemove,
+    handleMouseEnter,
+    handleMouseLeave,
+    hoveredId,
+    isDragging
 }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({
@@ -76,16 +84,18 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
 
     return (
         <FormItem
-            className="flex flex-col items-start"
+            className={`flex flex-col items-start ml-[-18px] ${isDragging ? "cursor-move" : ""}`}
             ref={setNodeRef}
             {...attributes}
             style={style}
+            onMouseEnter={() => handleMouseEnter(answer.id)}
+            onMouseLeave={handleMouseLeave}
         >
             <div className="flex flex-row w-[100%]">
-                <HandleIcon id={answer.id} />
-                <FormControl>
+                <HandleIcon id={answer.id} hoveredId={hoveredId}/>
+                <FormControl className="cursor-move">
                     <Input
-                        className=""
+                        className="cursor-text"
                         placeholder={answer.placeholder}
                         {...field}
                     />
@@ -98,7 +108,7 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
                     />
                 </div>
             </div>
-            <div className="">
+            <div className="ml-[24px]">
                 <FormMessage />
             </div>
         </FormItem>
