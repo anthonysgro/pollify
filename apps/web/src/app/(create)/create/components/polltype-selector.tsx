@@ -27,7 +27,10 @@ interface PollTypeSelectorProps extends PopoverProps {
     pollTypes: PollType[]
 }
 
-export function PollTypeSelector({ pollTypes, ...props }: PollTypeSelectorProps) {
+export function PollTypeSelector({
+    pollTypes,
+    ...props
+}: PollTypeSelectorProps) {
     const [open, setOpen] = React.useState(false)
     const [selectedPollType, setSelectedPollType] = React.useState<PollType>()
     const router = useRouter()

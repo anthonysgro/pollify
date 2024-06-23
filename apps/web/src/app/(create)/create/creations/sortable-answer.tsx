@@ -8,7 +8,13 @@ import { FormControl, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useDraggable } from '@dnd-kit/core'
 
-const HandleIcon = ({ id, hoveredId }: { id: string, hoveredId: string | undefined }) => {
+const HandleIcon = ({
+    id,
+    hoveredId,
+}: {
+    id: string
+    hoveredId: string | undefined
+}) => {
     const { attributes, listeners, setNodeRef } = useDraggable({
         id,
     })
@@ -18,12 +24,9 @@ const HandleIcon = ({ id, hoveredId }: { id: string, hoveredId: string | undefin
             ref={setNodeRef}
             {...attributes}
             {...listeners}
-            className={`flex items-center ${hoveredId === id ? "visible" : "invisible"} hover:cursor-move`}
+            className={`flex items-center ${hoveredId === id ? 'visible' : 'invisible'} hover:cursor-move`}
         >
-            <Icons.chevronsUpDown
-                className="mr-1"
-                size={18}
-            />
+            <Icons.chevronsUpDown className="mr-1" size={18} />
         </div>
     )
 }
@@ -68,7 +71,7 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
     handleMouseEnter,
     handleMouseLeave,
     hoveredId,
-    isDragging
+    isDragging,
 }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({
@@ -84,7 +87,7 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
 
     return (
         <FormItem
-            className={`flex flex-col items-start ml-[-18px] ${isDragging ? "cursor-move" : ""}`}
+            className={`flex flex-col items-start ml-[-18px] ${isDragging ? 'cursor-move' : ''}`}
             ref={setNodeRef}
             {...attributes}
             style={style}
@@ -92,10 +95,10 @@ const SortableAnswer: FC<SortableAnswerProps> = ({
             onMouseLeave={handleMouseLeave}
         >
             <div className="flex flex-row w-[100%]">
-                <HandleIcon id={answer.id} hoveredId={hoveredId}/>
+                <HandleIcon id={answer.id} hoveredId={hoveredId} />
                 <FormControl className="cursor-move">
                     <Input
-                        className="cursor-text"
+                        className="cursor-text bg-background"
                         placeholder={answer.placeholder}
                         {...field}
                     />

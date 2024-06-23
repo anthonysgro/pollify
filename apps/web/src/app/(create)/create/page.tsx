@@ -53,7 +53,7 @@ export default function PlaygroundPage() {
                 */}
                 <Tabs defaultValue="complete" className="flex-1">
                     <div className="container h-full py-6 px-10 md:px-36 lg:px-60 xl:px-96">
-                            {/* <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+                        {/* <div className="hidden flex-col space-y-4 sm:flex md:order-2">
                                 <div className="grid gap-2">
                                     <HoverCard openDelay={200}>
                                         <HoverCardTrigger asChild>
@@ -99,19 +99,19 @@ export default function PlaygroundPage() {
                                 <MaxLengthSelector defaultValue={[256]} />
                                 <TopPSelector defaultValue={[0.9]} />
                             </div> */}
-                            <div className="md:order-1">
-                                {/* <TabsContent
+                        <div className="md:order-1">
+                            {/* <TabsContent
                                     value="complete"
                                     className="mt-0 border-0 p-0"
                                 > */}
-                                    <div className="flex h-full flex-col space-y-4">
-                                        <FreePollForm />
-                                        {/* <Textarea
+                            <div className="flex h-full flex-col space-y-4">
+                                <FreePollForm />
+                                {/* <Textarea
                       placeholder="Write a tagline for an ice cream shop"
                       className="min-h-[400px] flex-1 p-4 md:min-h-[700px] lg:min-h-[700px]"
                     /> */}
-                                    </div>
-                                {/* </TabsContent>
+                            </div>
+                            {/* </TabsContent>
                                 <TabsContent
                                     value="insert"
                                     className="mt-0 border-0 p-0"
@@ -175,7 +175,7 @@ export default function PlaygroundPage() {
                                         </div>
                                     </div>
                                 </TabsContent> */}
-                            </div>
+                        </div>
                     </div>
                 </Tabs>
             </div>

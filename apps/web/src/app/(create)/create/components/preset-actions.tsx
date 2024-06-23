@@ -126,8 +126,7 @@ export function PresetActions() {
                             onClick={() => {
                                 setShowDeleteDialog(false)
                                 toast({
-                                    description:
-                                        'This poll has been deleted.',
+                                    description: 'This poll has been deleted.',
                                 })
                             }}
                         >

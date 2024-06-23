@@ -39,6 +39,14 @@ import 'filepond/dist/filepond.min.css'
 import { z } from 'zod'
 import { FilePondFile } from 'filepond'
 import SortableAnswer from './sortable-answer'
+import { Textarea } from '@/components/ui/textarea'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Icons } from '@/components/icons'
 
 export const formSchema = z.object({
     title: z.string().min(2, {
@@ -68,19 +76,19 @@ const SortableList: React.FC = () => {
     )
 
     const [files, setFiles] = useState<File[]>([])
-    const [submissionError, setSubmissionError] = useState<Error | null>(null);
+    const [submissionError, setSubmissionError] = useState<Error | null>(null)
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [progress, setProgress] = useState<number>(0)
-    const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
+    const [hoveredId, setHoveredId] = useState<string | undefined>(undefined)
     const [isDragging, setIsDragging] = useState<boolean>(false)
 
     const handleMouseEnter = (id: string) => {
-        if (!isDragging) setHoveredId(id);
-    };
+        if (!isDragging) setHoveredId(id)
+    }
 
     const handleMouseLeave = () => {
-        if (!isDragging) setHoveredId(undefined);
-    };
+        if (!isDragging) setHoveredId(undefined)
+    }
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -146,7 +154,7 @@ const SortableList: React.FC = () => {
             console.log(data)
         } catch (error) {
             if (error instanceof Error) {
-                setSubmissionError(error);
+                setSubmissionError(error)
             }
         } finally {
             // Simulate some delay for the progress to reach 100% smoothly
@@ -187,68 +195,97 @@ const SortableList: React.FC = () => {
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
+                    className="space-y-4"
                 >
-                    <FormField
-                        control={form.control}
-                        name="title"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Title</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className="disabled"
-                                        placeholder="type here..."
-                                        {...field}
+                    <div>
+                        <FormField
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Title</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            className="disabled bg-background"
+                                            placeholder="type here..."
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription></FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Accordion
+                            type="single"
+                            collapsible
+                            className="w-full mt-0"
+                        >
+                            <AccordionItem value="item-1" className="border-0">
+                                <AccordionTrigger className="hover:no-underline text-muted-foreground pt-2 pb-0 mb-6">
+                                    <div className="flex justify-start items-center">
+                                        <Icons.add className="" size={16} />
+                                        <p className="ml-1 text-xs">Add description (optional)</p>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="pb-0 space-y-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="description"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Description
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Textarea
+                                                        className="disabled bg-background"
+                                                        placeholder="type here..."
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription></FormDescription>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
-                                </FormControl>
-                                <FormDescription></FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Description</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className=""
-                                        placeholder="type here..."
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription></FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormItem>
-                        <FormLabel>Image</FormLabel>
-                        <FormControl className="w-[100%]">
-                            <FilePond
-                                files={files}
-                                acceptedFileTypes={['image/*']}
-                                fileValidateTypeDetectType={(source, type) =>
-                                    new Promise((resolve, reject) => {
-                                        resolve(type)
-                                    })
-                                }
-                                onupdatefiles={(fileItems: FilePondFile[]) => {
-                                    setFiles(
-                                        fileItems.map(
-                                            (fileItem) => fileItem.file as File,
-                                        ),
-                                    )
-                                }}
-                                allowMultiple={false}
-                                name="files"
-                                labelIdle='Drag & Drop your file or <span className="filepond--label-action">Browse</span>'
-                            />
-                        </FormControl>
-                    </FormItem>
+                                    <FormItem>
+                                        <FormLabel>Image</FormLabel>
+                                        <FormControl className="w-[100%]">
+                                            <FilePond
+                                                files={files}
+                                                acceptedFileTypes={['image/*']}
+                                                fileValidateTypeDetectType={(
+                                                    source,
+                                                    type,
+                                                ) =>
+                                                    new Promise(
+                                                        (resolve, reject) => {
+                                                            resolve(type)
+                                                        },
+                                                    )
+                                                }
+                                                onupdatefiles={(
+                                                    fileItems: FilePondFile[],
+                                                ) => {
+                                                    setFiles(
+                                                        fileItems.map(
+                                                            (fileItem) =>
+                                                                fileItem.file as File,
+                                                        ),
+                                                    )
+                                                }}
+                                                allowMultiple={false}
+                                                name="files"
+                                                labelIdle='Drag & Drop your File or <span className="filepond--label-action">Browse</span>'
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+
                     <FormItem>
                         <FormLabel>Answers</FormLabel>
                         <DndContext
@@ -278,8 +315,14 @@ const SortableList: React.FC = () => {
                                                         handleRemoveAnswer
                                                     }
                                                     answer={field}
-                                                    handleMouseEnter={() => handleMouseEnter(field.id)}
-                                                    handleMouseLeave={handleMouseLeave}
+                                                    handleMouseEnter={() =>
+                                                        handleMouseEnter(
+                                                            field.id,
+                                                        )
+                                                    }
+                                                    handleMouseLeave={
+                                                        handleMouseLeave
+                                                    }
                                                     hoveredId={hoveredId}
                                                     isDragging={isDragging}
                                                 />

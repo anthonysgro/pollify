@@ -21,7 +21,9 @@ export function PollSave() {
                 <DialogHeader>
                     <DialogTitle>Save Poll</DialogTitle>
                     <DialogDescription>
-                        This will save the current poll which you can access, edit, and publish.                    </DialogDescription>
+                        This will save the current poll which you can access,
+                        edit, and publish.{' '}
+                    </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid gap-2">

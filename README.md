@@ -42,6 +42,7 @@ npm dev
 ```
 
 To develop just the webapp:
+
 ```
 cd ./pollify
 npm run dev --workspace apps/web
@@ -51,8 +52,8 @@ npm run dev --workspace apps/web
 
 ### AWS
 
-
 ### Postgres
+
 We maintain EC2 instances in AWS that own our postgres instances with 30GB of storage for testing purposes. See ec2 host mapping here:
 
 ```
@@ -62,27 +63,30 @@ prod - TBD
 ```
 
 To access, connect using the .pem keypair for each environment like so:
+
 ```zsh
 ssh -i pollify-beta-postgres-keypair.pem ec2-user@ec2-54-226-51-25.compute-1.amazonaws.com
 ```
 
 You should only connect directly to the EC2 host for root user actions like db upgrades and maintenance. Some common commands for the postgres admin:
 
-Edit postgres connections pg_hba.conf 
+Edit postgres connections pg_hba.conf
+
 ```zsh
 sudo nano /var/lib/pgsql/data/pg_hba.conf
 ```
 
 Edit postgres config
+
 ```zsh
 sudo nano /var/lib/pgsql/data/postgresql.conf
 ```
 
 Normally, we can connect to the DB by using our username + password combinations. Please contact the db admin for credentials. Example connection string:
+
 ```
 postgres://{username}:{password}@ec2-54-226-51-25.compute-1.amazonaws.com:5432/pollify_beta
 ```
-
 
 ## Useful Links
 
