@@ -40,6 +40,7 @@ interface SortableAnswerProps {
                 text: string
                 placeholder: string
             }[]
+            pollType: number
         },
         `answers.${number}.text`
     >

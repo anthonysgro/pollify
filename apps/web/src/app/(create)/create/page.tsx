@@ -38,19 +38,18 @@ export default function PlaygroundPage() {
     return (
         <>
             <div className="h-full flex-col flex">
-                {/* <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-                    <h2 className="text-lg font-semibold">Playground</h2>
-                    <div className="ml-auto flex w-full space-x-2 sm:justify-end">
+                <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+                    <h1 className="text-xl font-semibold">Create a Poll</h1>
+                    {/* <div className="ml-auto flex w-full space-x-2 sm:justify-end">
                         <PollTypeSelector pollTypes={pollTypes} />
                         <PollSave />
                         <div className="hidden space-x-2 md:flex">
                             <PresetShare />
                         </div>
                         <PresetActions />
-                    </div>
-                </div> 
-                <Separator />
-                */}
+                    </div> */}
+                </div>
+                {/* <Separator /> */}
                 <Tabs defaultValue="complete" className="flex-1">
                     <div className="container h-full py-6 px-10 md:px-36 lg:px-60 xl:px-96">
                         {/* <div className="hidden flex-col space-y-4 sm:flex md:order-2">

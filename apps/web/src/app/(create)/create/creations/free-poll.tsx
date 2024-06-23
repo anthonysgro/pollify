@@ -47,6 +47,8 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Icons } from '@/components/icons'
+import { PollTypeSelector } from '../components/polltype-selector'
+import { pollTypes } from '../data/presets'
 
 export const formSchema = z.object({
     title: z.string().min(2, {
@@ -63,6 +65,7 @@ export const formSchema = z.object({
             }),
         )
         .min(1, { message: 'At least one answer is required.' }),
+    pollType: z.number({ message: 'Invalid form type' }),
 })
 
 const SortableList: React.FC = () => {
@@ -100,6 +103,7 @@ const SortableList: React.FC = () => {
                 { text: '', placeholder: 'Answer 2' },
                 { text: '', placeholder: 'Answer 3' },
             ],
+            pollType: 0,
         },
     })
 
@@ -127,6 +131,7 @@ const SortableList: React.FC = () => {
 
         formData.append('title', values.title)
         formData.append('description', values.description || '')
+        formData.append('pollType', values.pollType.toString())
         formData.append(
             'answers',
             JSON.stringify(
@@ -222,10 +227,12 @@ const SortableList: React.FC = () => {
                             className="w-full mt-0"
                         >
                             <AccordionItem value="item-1" className="border-0">
-                                <AccordionTrigger className="hover:no-underline text-muted-foreground pt-2 pb-0 mb-6">
+                                <AccordionTrigger className="hover:no-underline text-muted-foreground pt-2 pb-0 mb-4">
                                     <div className="flex justify-start items-center">
                                         <Icons.add className="" size={16} />
-                                        <p className="ml-1 text-xs">Add description (optional)</p>
+                                        <p className="ml-1 text-xs">
+                                            Add description (optional)
+                                        </p>
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pb-0 space-y-4">
@@ -285,7 +292,24 @@ const SortableList: React.FC = () => {
                             </AccordionItem>
                         </Accordion>
                     </div>
-
+                    <FormField
+                        control={form.control}
+                        name="pollType"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                                <FormLabel>PollType</FormLabel>
+                                <FormControl>
+                                    <PollTypeSelector
+                                        pollTypes={pollTypes}
+                                        field={field}
+                                        form={form}
+                                    />
+                                </FormControl>
+                                <FormDescription></FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormItem>
                         <FormLabel>Answers</FormLabel>
                         <DndContext
