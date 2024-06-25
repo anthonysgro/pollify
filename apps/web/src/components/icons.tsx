@@ -25,6 +25,7 @@ import {
     User,
     X,
     ChevronsUpDown,
+    Minus,
 } from 'lucide-react'
 
 import {
@@ -58,6 +59,7 @@ export const Icons = {
     heart: Heart,
     ellipsis: MoreVertical,
     add: Plus,
+    minus: Minus,
     warning: AlertTriangle,
     user: User,
     arrowRight: ArrowRight,

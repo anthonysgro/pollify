@@ -52,6 +52,7 @@ import { pollTypes } from '../data/presets'
 import { Separator } from '@/components/ui/separator'
 import { PollType } from '../data/presets'
 import { Calendar } from '@/components/ui/calendar'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export const formSchema = z.object({
     title: z.string().min(2, {
@@ -87,9 +88,10 @@ const SortableList: React.FC = () => {
     const [progress, setProgress] = useState<number>(0)
     const [hoveredId, setHoveredId] = useState<string | undefined>(undefined)
     const [isDragging, setIsDragging] = useState<boolean>(false)
+    const [accordianIsOpen, setAccordionIsOpen] = useState<boolean>(false)
     const [selectedPollType, setSelectedPollType] = useState<
         PollType | undefined
-    >(pollTypes.find((pollType) => pollType.id === 0))
+    >(pollTypes.find((pollType) => pollType.id === 1))
     const [selectedDates, setSelectedDates] = useState<Date[]>([])
 
     const handleMouseEnter = (id: string) => {
@@ -203,6 +205,13 @@ const SortableList: React.FC = () => {
         }
     }
 
+    const options = {
+        weekday: 'short' as 'short', // "Mon"
+        year: 'numeric' as 'numeric',
+        month: 'long' as 'long', // "June"
+        day: 'numeric' as 'numeric' // "24"
+      };
+
     return (
         <div className="p-8 bg-card text-card-foreground rounded-xl border">
             <Form {...form}>
@@ -235,12 +244,24 @@ const SortableList: React.FC = () => {
                             className="w-full mt-0"
                         >
                             <AccordionItem value="item-1" className="border-0">
-                                <AccordionTrigger className="hover:no-underline text-muted-foreground pt-2 pb-0 mb-4">
+                                <AccordionTrigger className="hover:no-underline text-muted-foreground pt-2 pb-0 mb-4" onClick={() => setAccordionIsOpen(!accordianIsOpen)}>
                                     <div className="flex justify-start items-center">
+                                        {
+                                            accordianIsOpen ? 
+                                            <>
+                                        <p className="ml-1 text-xs">
+                                            Hide description
+                                        </p>
+                                        </>
+                                        :
+                                        <>
                                         <Icons.add className="" size={16} />
                                         <p className="ml-1 text-xs">
                                             Add description (optional)
                                         </p>
+                                        </>
+                                        }
+                                        
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pb-0 space-y-4">
@@ -370,7 +391,7 @@ const SortableList: React.FC = () => {
                         )}
                         {selectedPollType?.id === 1 && (
                             <>
-                                <div className="sm:grid sm:grid-cols-2 sm:gap-6">
+                                <div className="sm:grid sm:grid-cols-2 sm:gap-6 max-h-[335px]">
                                     <Calendar
                                         mode="multiple"
                                         selected={selectedDates}
@@ -380,21 +401,28 @@ const SortableList: React.FC = () => {
                                         className="rounded-md border max-w-sm mx-auto sm:max-w-lg sm:w-full p-4"
                                     />
                                     <div className="rounded-md border mt-6 sm:mt-0 max-w-sm mx-auto sm:max-w-lg sm:w-full flex justify-center items-center w-full h-full">
-                                        {selectedDates.length === 0 ? (
-                                            <div className="flex flex-col p-4 text-center">
-                                                <div className="font-medium p-1">
-                                                    Date Selections
-                                                </div>
-                                                <div className="text-muted-foreground text-sm">
-                                                    Click on a date in the
-                                                    calendar to get started
-                                                </div>
+                                        <div className="flex flex-col p-4 justify-center text-center h-full w-full">
+                                            <div className="font-medium pt-1 pb-1">
+                                                Date Selections
                                             </div>
-                                        ) : (
-                                            selectedDates.map((date) => (
-                                                <p>{date.toISOString()}</p>
-                                            ))
-                                        )}
+                                            <ScrollArea className="max-h-[270px] overflow-y-auto">
+                                                {selectedDates.length === 0 ? (
+                                                    <div className="text-muted-foreground text-sm">
+                                                        Click on a date in the
+                                                        calendar to get started
+                                                    </div>
+                                                ) : (
+                                                    selectedDates.map(
+                                                        (date) => (
+                                                            <div className="rounded-md border text-sm bg-primary text-primary-foreground my-2 py-1">
+                                                                {date.toLocaleDateString('en-US', options)}
+                                                                <Input type="time" className="border-0"></Input>
+                                                            </div>
+                                                        ),
+                                                    )
+                                                )}
+                                            </ScrollArea>
+                                        </div>
                                     </div>
                                 </div>
                             </>
