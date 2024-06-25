@@ -51,6 +51,7 @@ import { PollTypeSelector } from '../components/polltype-selector'
 import { pollTypes } from '../data/presets'
 import { Separator } from '@/components/ui/separator'
 import { PollType } from '../data/presets'
+import { Calendar } from '@/components/ui/calendar'
 
 export const formSchema = z.object({
     title: z.string().min(2, {
@@ -89,6 +90,7 @@ const SortableList: React.FC = () => {
     const [selectedPollType, setSelectedPollType] = useState<
         PollType | undefined
     >(pollTypes.find((pollType) => pollType.id === 0))
+    const [selectedDates, setSelectedDates] = useState<Date[]>([])
 
     const handleMouseEnter = (id: string) => {
         if (!isDragging) setHoveredId(id)
@@ -307,58 +309,98 @@ const SortableList: React.FC = () => {
                         <FormDescription></FormDescription>
                         <FormMessage />
                     </FormItem>
-                    {selectedPollType?.id === 0 && (
-                        <FormItem>
-                            <FormLabel>Answers</FormLabel>
-                            <DndContext
-                                sensors={sensors}
-                                collisionDetection={closestCenter}
-                                onDragStart={() => setIsDragging(true)}
-                                onDragEnd={handleDragEnd}
-                                modifiers={[restrictToWindowEdges]}
-                            >
-                                <SortableContext
-                                    items={fields}
-                                    strategy={verticalListSortingStrategy}
+                    <FormItem>
+                        <FormLabel>Answers</FormLabel>
+                        {selectedPollType?.id === 0 && (
+                            <>
+                                <DndContext
+                                    sensors={sensors}
+                                    collisionDetection={closestCenter}
+                                    onDragStart={() => setIsDragging(true)}
+                                    onDragEnd={handleDragEnd}
+                                    modifiers={[restrictToWindowEdges]}
                                 >
-                                    {fields.map((field, index) => {
-                                        return (
-                                            <FormField
-                                                key={field.id}
-                                                control={form.control}
-                                                name={`answers.${index}.text`}
-                                                render={(fieldRenderProps) => (
-                                                    <SortableAnswer
-                                                        field={
-                                                            fieldRenderProps.field
-                                                        }
-                                                        index={index}
-                                                        handleRemove={
-                                                            handleRemoveAnswer
-                                                        }
-                                                        answer={field}
-                                                        handleMouseEnter={() =>
-                                                            handleMouseEnter(
-                                                                field.id,
-                                                            )
-                                                        }
-                                                        handleMouseLeave={
-                                                            handleMouseLeave
-                                                        }
-                                                        hoveredId={hoveredId}
-                                                        isDragging={isDragging}
-                                                    />
-                                                )}
-                                            />
-                                        )
-                                    })}
-                                </SortableContext>
-                            </DndContext>
-                            <Button type="button" onClick={handleAddAnswer}>
-                                Add Answer
-                            </Button>
-                        </FormItem>
-                    )}
+                                    <SortableContext
+                                        items={fields}
+                                        strategy={verticalListSortingStrategy}
+                                    >
+                                        {fields.map((field, index) => {
+                                            return (
+                                                <FormField
+                                                    key={field.id}
+                                                    control={form.control}
+                                                    name={`answers.${index}.text`}
+                                                    render={(
+                                                        fieldRenderProps,
+                                                    ) => (
+                                                        <SortableAnswer
+                                                            field={
+                                                                fieldRenderProps.field
+                                                            }
+                                                            index={index}
+                                                            handleRemove={
+                                                                handleRemoveAnswer
+                                                            }
+                                                            answer={field}
+                                                            handleMouseEnter={() =>
+                                                                handleMouseEnter(
+                                                                    field.id,
+                                                                )
+                                                            }
+                                                            handleMouseLeave={
+                                                                handleMouseLeave
+                                                            }
+                                                            hoveredId={
+                                                                hoveredId
+                                                            }
+                                                            isDragging={
+                                                                isDragging
+                                                            }
+                                                        />
+                                                    )}
+                                                />
+                                            )
+                                        })}
+                                    </SortableContext>
+                                </DndContext>
+                                <Button type="button" onClick={handleAddAnswer}>
+                                    Add Answer
+                                </Button>
+                            </>
+                        )}
+                        {selectedPollType?.id === 1 && (
+                            <>
+                                <div className="sm:grid sm:grid-cols-2 sm:gap-6">
+                                    <Calendar
+                                        mode="multiple"
+                                        selected={selectedDates}
+                                        onSelect={(dates) =>
+                                            setSelectedDates(dates || [])
+                                        }
+                                        className="rounded-md border max-w-sm mx-auto sm:max-w-lg sm:w-full p-4"
+                                    />
+                                    <div className="rounded-md border mt-6 sm:mt-0 max-w-sm mx-auto sm:max-w-lg sm:w-full flex justify-center items-center w-full h-full">
+                                        {selectedDates.length === 0 ? (
+                                            <div className="flex flex-col p-4 text-center">
+                                                <div className="font-medium p-1">
+                                                    Date Selections
+                                                </div>
+                                                <div className="text-muted-foreground text-sm">
+                                                    Click on a date in the
+                                                    calendar to get started
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            selectedDates.map((date) => (
+                                                <p>{date.toISOString()}</p>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </FormItem>
+
                     <Separator />
 
                     <Button type="submit">Submit</Button>
