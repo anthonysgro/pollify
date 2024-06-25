@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
@@ -21,49 +19,23 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover'
+import { FormControl } from '@/components/ui/form'
+import { Dispatch, SetStateAction } from 'react'
 
 import { PollType } from '../data/presets'
+import { pollTypes } from '../data/presets'
 
 interface PollTypeSelectorProps extends PopoverProps {
-    pollTypes: PollType[]
-    field: ControllerRenderProps<
-        {
-            title: string
-            description?: string | undefined
-            answers: {
-                text: string
-                placeholder: string
-            }[]
-            pollType: number
-        },
-        `pollType`
-    >
-    form: UseFormReturn<
-        {
-            title: string
-            answers: {
-                text: string
-                placeholder: string
-            }[]
-            pollType: number
-            description?: string | undefined
-        },
-        any,
-        undefined
-    >
+    selectedPollType: PollType | undefined
+    setSelectedPollType: Dispatch<SetStateAction<PollType | undefined>>
 }
 
 export function PollTypeSelector({
-    pollTypes,
-    field,
-    form,
+    selectedPollType,
+    setSelectedPollType,
     ...props
 }: PollTypeSelectorProps) {
     const [open, setOpen] = React.useState(false)
-    const [selectedPollType, setSelectedPollType] = React.useState<
-        PollType | undefined
-    >(pollTypes.find((pollType) => pollType.id === field.value))
-    const router = useRouter()
 
     return (
         <Popover open={open} onOpenChange={setOpen} {...props}>
@@ -86,24 +58,26 @@ export function PollTypeSelector({
                         <CommandEmpty>No poll types found.</CommandEmpty>
                         <CommandGroup heading="Poll types">
                             {pollTypes.map((pollType) => (
-                                <CommandItem
-                                    key={pollType.id}
-                                    onSelect={() => {
-                                        form.setValue('pollType', pollType.id)
-                                        setSelectedPollType(pollType)
-                                        setOpen(false)
-                                    }}
-                                >
-                                    {pollType.name}
-                                    <CheckIcon
-                                        className={cn(
-                                            'ml-auto h-4 w-4',
-                                            selectedPollType?.id === pollType.id
-                                                ? 'opacity-100'
-                                                : 'opacity-0',
-                                        )}
-                                    />
-                                </CommandItem>
+                                <FormControl key={pollType.id}>
+                                    <CommandItem
+                                        onSelect={() => {
+                                            setSelectedPollType(pollType)
+                                            setOpen(false)
+                                        }}
+                                        defaultValue={selectedPollType?.id}
+                                    >
+                                        {pollType.name}
+                                        <CheckIcon
+                                            className={cn(
+                                                'ml-auto h-4 w-4',
+                                                selectedPollType?.id ===
+                                                    pollType.id
+                                                    ? 'opacity-100'
+                                                    : 'opacity-0',
+                                            )}
+                                        />
+                                    </CommandItem>
+                                </FormControl>
                             ))}
                         </CommandGroup>
                     </CommandList>

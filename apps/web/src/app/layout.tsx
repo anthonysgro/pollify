@@ -1,4 +1,4 @@
-import { fontSans } from '@/styles/fonts'
+import { fontSans, fontMono } from '@/styles/fonts'
 import '@/styles/globals.css'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/providers'

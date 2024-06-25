@@ -49,6 +49,8 @@ import {
 import { Icons } from '@/components/icons'
 import { PollTypeSelector } from '../components/polltype-selector'
 import { pollTypes } from '../data/presets'
+import { Separator } from '@/components/ui/separator'
+import { PollType } from '../data/presets'
 
 export const formSchema = z.object({
     title: z.string().min(2, {
@@ -84,6 +86,9 @@ const SortableList: React.FC = () => {
     const [progress, setProgress] = useState<number>(0)
     const [hoveredId, setHoveredId] = useState<string | undefined>(undefined)
     const [isDragging, setIsDragging] = useState<boolean>(false)
+    const [selectedPollType, setSelectedPollType] = useState<
+        PollType | undefined
+    >(pollTypes.find((pollType) => pollType.id === 0))
 
     const handleMouseEnter = (id: string) => {
         if (!isDragging) setHoveredId(id)
@@ -103,7 +108,6 @@ const SortableList: React.FC = () => {
                 { text: '', placeholder: 'Answer 2' },
                 { text: '', placeholder: 'Answer 3' },
             ],
-            pollType: 0,
         },
     })
 
@@ -113,6 +117,8 @@ const SortableList: React.FC = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        if (!selectedPollType) throw new Error('Invalid state')
+
         setIsSubmitting(true)
         setProgress(0)
 
@@ -131,7 +137,7 @@ const SortableList: React.FC = () => {
 
         formData.append('title', values.title)
         formData.append('description', values.description || '')
-        formData.append('pollType', values.pollType.toString())
+        formData.append('pollTypeId', selectedPollType.id.toString())
         formData.append(
             'answers',
             JSON.stringify(
@@ -292,74 +298,69 @@ const SortableList: React.FC = () => {
                             </AccordionItem>
                         </Accordion>
                     </div>
-                    <FormField
-                        control={form.control}
-                        name="pollType"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-col">
-                                <FormLabel>PollType</FormLabel>
-                                <FormControl>
-                                    <PollTypeSelector
-                                        pollTypes={pollTypes}
-                                        field={field}
-                                        form={form}
-                                    />
-                                </FormControl>
-                                <FormDescription></FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormItem>
-                        <FormLabel>Answers</FormLabel>
-                        <DndContext
-                            sensors={sensors}
-                            collisionDetection={closestCenter}
-                            onDragStart={() => setIsDragging(true)}
-                            onDragEnd={handleDragEnd}
-                            modifiers={[restrictToWindowEdges]}
-                        >
-                            <SortableContext
-                                items={fields}
-                                strategy={verticalListSortingStrategy}
-                            >
-                                {fields.map((field, index) => {
-                                    return (
-                                        <FormField
-                                            key={field.id}
-                                            control={form.control}
-                                            name={`answers.${index}.text`}
-                                            render={(fieldRenderProps) => (
-                                                <SortableAnswer
-                                                    field={
-                                                        fieldRenderProps.field
-                                                    }
-                                                    index={index}
-                                                    handleRemove={
-                                                        handleRemoveAnswer
-                                                    }
-                                                    answer={field}
-                                                    handleMouseEnter={() =>
-                                                        handleMouseEnter(
-                                                            field.id,
-                                                        )
-                                                    }
-                                                    handleMouseLeave={
-                                                        handleMouseLeave
-                                                    }
-                                                    hoveredId={hoveredId}
-                                                    isDragging={isDragging}
-                                                />
-                                            )}
-                                        />
-                                    )
-                                })}
-                            </SortableContext>
-                        </DndContext>
-                        <Button type="button" onClick={handleAddAnswer}>
-                            Add Answer
-                        </Button>
+                    <FormItem className="flex flex-col">
+                        <FormLabel>Poll Type</FormLabel>
+                        <PollTypeSelector
+                            selectedPollType={selectedPollType}
+                            setSelectedPollType={setSelectedPollType}
+                        />
+                        <FormDescription></FormDescription>
+                        <FormMessage />
                     </FormItem>
+                    {selectedPollType?.id === 0 && (
+                        <FormItem>
+                            <FormLabel>Answers</FormLabel>
+                            <DndContext
+                                sensors={sensors}
+                                collisionDetection={closestCenter}
+                                onDragStart={() => setIsDragging(true)}
+                                onDragEnd={handleDragEnd}
+                                modifiers={[restrictToWindowEdges]}
+                            >
+                                <SortableContext
+                                    items={fields}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    {fields.map((field, index) => {
+                                        return (
+                                            <FormField
+                                                key={field.id}
+                                                control={form.control}
+                                                name={`answers.${index}.text`}
+                                                render={(fieldRenderProps) => (
+                                                    <SortableAnswer
+                                                        field={
+                                                            fieldRenderProps.field
+                                                        }
+                                                        index={index}
+                                                        handleRemove={
+                                                            handleRemoveAnswer
+                                                        }
+                                                        answer={field}
+                                                        handleMouseEnter={() =>
+                                                            handleMouseEnter(
+                                                                field.id,
+                                                            )
+                                                        }
+                                                        handleMouseLeave={
+                                                            handleMouseLeave
+                                                        }
+                                                        hoveredId={hoveredId}
+                                                        isDragging={isDragging}
+                                                    />
+                                                )}
+                                            />
+                                        )
+                                    })}
+                                </SortableContext>
+                            </DndContext>
+                            <Button type="button" onClick={handleAddAnswer}>
+                                Add Answer
+                            </Button>
+                        </FormItem>
+                    )}
+                    <Separator />
+
                     <Button type="submit">Submit</Button>
                     {isSubmitting && <Progress value={progress} />}
                 </form>

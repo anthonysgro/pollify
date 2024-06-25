@@ -51,7 +51,7 @@ export default function PlaygroundPage() {
                 </div>
                 {/* <Separator /> */}
                 <Tabs defaultValue="complete" className="flex-1">
-                    <div className="container h-full py-6 px-10 md:px-36 lg:px-60 xl:px-96">
+                    <div className="container h-full py-6 max-w-3xl">
                         {/* <div className="hidden flex-col space-y-4 sm:flex md:order-2">
                                 <div className="grid gap-2">
                                     <HoverCard openDelay={200}>
