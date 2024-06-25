@@ -209,8 +209,8 @@ const SortableList: React.FC = () => {
         weekday: 'short' as 'short', // "Mon"
         year: 'numeric' as 'numeric',
         month: 'long' as 'long', // "June"
-        day: 'numeric' as 'numeric' // "24"
-      };
+        day: 'numeric' as 'numeric', // "24"
+    }
 
     return (
         <div className="p-8 bg-card text-card-foreground rounded-xl border">
@@ -244,24 +244,30 @@ const SortableList: React.FC = () => {
                             className="w-full mt-0"
                         >
                             <AccordionItem value="item-1" className="border-0">
-                                <AccordionTrigger className="hover:no-underline text-muted-foreground pt-2 pb-0 mb-4" onClick={() => setAccordionIsOpen(!accordianIsOpen)}>
+                                <AccordionTrigger
+                                    className="hover:no-underline text-muted-foreground pt-2 pb-0 mb-4"
+                                    onClick={() =>
+                                        setAccordionIsOpen(!accordianIsOpen)
+                                    }
+                                >
                                     <div className="flex justify-start items-center">
-                                        {
-                                            accordianIsOpen ? 
+                                        {accordianIsOpen ? (
                                             <>
-                                        <p className="ml-1 text-xs">
-                                            Hide description
-                                        </p>
-                                        </>
-                                        :
-                                        <>
-                                        <Icons.add className="" size={16} />
-                                        <p className="ml-1 text-xs">
-                                            Add description (optional)
-                                        </p>
-                                        </>
-                                        }
-                                        
+                                                <p className="ml-1 text-xs">
+                                                    Hide description
+                                                </p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Icons.add
+                                                    className=""
+                                                    size={16}
+                                                />
+                                                <p className="ml-1 text-xs">
+                                                    Add description (optional)
+                                                </p>
+                                            </>
+                                        )}
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pb-0 space-y-4">
@@ -415,8 +421,14 @@ const SortableList: React.FC = () => {
                                                     selectedDates.map(
                                                         (date) => (
                                                             <div className="rounded-md border text-sm bg-primary text-primary-foreground my-2 py-1">
-                                                                {date.toLocaleDateString('en-US', options)}
-                                                                <Input type="time" className="border-0"></Input>
+                                                                {date.toLocaleDateString(
+                                                                    'en-US',
+                                                                    options,
+                                                                )}
+                                                                <Input
+                                                                    type="time"
+                                                                    className="border-0"
+                                                                ></Input>
                                                             </div>
                                                         ),
                                                     )
