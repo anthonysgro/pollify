@@ -7,6 +7,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { FormControl, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useDraggable } from '@dnd-kit/core'
+import { FormSchema } from '../formSchema'
 
 const HandleIcon = ({
     id,
@@ -32,32 +33,9 @@ const HandleIcon = ({
 }
 // Props for SortableItem component
 interface SortableAnswerProps {
-    field: ControllerRenderProps<
-        {
-            title: string
-            description?: string | undefined
-            answers: {
-                text: string
-                placeholder: string
-            }[]
-            pollType: number
-        },
-        `answers.${number}.text`
-    >
-    index: number
+    field: ControllerRenderProps<FormSchema, `textAnswers.${number}.text`>
     handleRemove: (id: string) => void
-    answer: FieldArrayWithId<
-        {
-            title: string
-            answers: {
-                text: string
-                placeholder: string
-            }[]
-            description?: string | undefined
-        },
-        'answers',
-        'id'
-    >
+    answer: FieldArrayWithId<FormSchema, 'textAnswers', 'id'>
     handleMouseEnter: (id: string) => void
     handleMouseLeave: () => void
     hoveredId: string | undefined
@@ -66,7 +44,6 @@ interface SortableAnswerProps {
 
 const SortableAnswer: FC<SortableAnswerProps> = ({
     field,
-    index,
     answer,
     handleRemove,
     handleMouseEnter,
