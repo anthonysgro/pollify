@@ -53,6 +53,7 @@ import { Separator } from '@/components/ui/separator'
 import { PollType } from '../data/presets'
 import { Calendar } from '@/components/ui/calendar'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { DateTime } from 'luxon'
 
 export const formSchema = z.object({
     title: z.string().min(2, {
@@ -71,6 +72,12 @@ export const formSchema = z.object({
         .min(1, { message: 'At least one answer is required.' }),
     pollType: z.number({ message: 'Invalid form type' }),
 })
+
+type DateRange = {
+    startDate: DateTime;
+    endDate: DateTime;
+    key: string;
+}
 
 const SortableList: React.FC = () => {
     registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType)
@@ -387,7 +394,8 @@ const SortableList: React.FC = () => {
                                                     )}
                                                 />
                                             )
-                                        })}
+                                            },
+                                        )}
                                     </SortableContext>
                                 </DndContext>
                                 <Button type="button" onClick={handleAddAnswer}>
@@ -397,7 +405,7 @@ const SortableList: React.FC = () => {
                         )}
                         {selectedPollType?.id === 1 && (
                             <>
-                                <div className="sm:grid sm:grid-cols-2 sm:gap-6 max-h-[335px]">
+                                <div className="sm:grid sm:grid-cols-2 sm:gap-6">
                                     <Calendar
                                         mode="multiple"
                                         selected={selectedDates}
@@ -407,28 +415,35 @@ const SortableList: React.FC = () => {
                                         className="rounded-md border max-w-sm mx-auto sm:max-w-lg sm:w-full p-4"
                                     />
                                     <div className="rounded-md border mt-6 sm:mt-0 max-w-sm mx-auto sm:max-w-lg sm:w-full flex justify-center items-center w-full h-full">
-                                        <div className="flex flex-col p-4 justify-center text-center h-full w-full">
-                                            <div className="font-medium pt-1 pb-1">
+                                        <div className="flex flex-col p-4 justify-center h-full w-full">
+                                            <div className="font-medium pt-1 pb-1 text-center">
                                                 Date Selections
                                             </div>
                                             <ScrollArea className="max-h-[270px] overflow-y-auto">
                                                 {selectedDates.length === 0 ? (
-                                                    <div className="text-muted-foreground text-sm">
+                                                    <div className="text-muted-foreground text-sm text-center">
                                                         Click on a date in the
                                                         calendar to get started
                                                     </div>
                                                 ) : (
                                                     selectedDates.map(
                                                         (date) => (
-                                                            <div className="rounded-md border text-sm bg-primary text-primary-foreground my-2 py-1">
-                                                                {date.toLocaleDateString(
-                                                                    'en-US',
-                                                                    options,
-                                                                )}
-                                                                <Input
-                                                                    type="time"
-                                                                    className="border-0"
-                                                                ></Input>
+                                                            <div
+                                                                className="rounded-md border text-sm font-medium bg-primary text-primary-foreground my-2 p-2 space-y-2"
+                                                            >
+                                                                <p>
+                                                                    {date.toLocaleDateString('en-US', options)}
+                                                                </p>
+                                                                <div className="flex space-x-2">
+                                                                    <Input
+                                                                        type="time"
+                                                                        className="border hover:bg-accent hover:text-accent-foreground bg-background border-input shadow-sm text-card-foreground"
+                                                                    />
+                                                                    <Input
+                                                                        type="time"
+                                                                        className="border hover:bg-accent hover:text-accent-foreground bg-background border-input shadow-sm text-card-foreground"
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         ),
                                                     )
