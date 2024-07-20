@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import { Form, useFormField } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { DragEndEvent } from '@dnd-kit/core'
@@ -12,15 +12,14 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import 'filepond/dist/filepond.min.css'
 import { PollTypeFormField } from './poll-type-form-field'
-import { pollTypes } from '../data/presets'
 import { Separator } from '@/components/ui/separator'
 import { PollType } from '../data/presets'
 import { TitleFormField } from './title-form-field'
 import { OptionalFormField } from './optional-form-fields'
 import { SortableAnswerFormField } from './sortable-answer-form-field'
-import { ScheduledAnswerFormField } from "./schedule-answer-form-field"
-import { FormSchema, formSchema } from '../formSchema'
-
+import { ScheduledAnswerFormField } from './schedule-answer-form-field'
+import { FormSchema, formSchema, DateRange, DateRangeJS } from '../formSchema'
+import { DateTime } from 'luxon'
 
 const SortableList: React.FC = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -28,10 +27,6 @@ const SortableList: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [progress, setProgress] = useState<number>(0)
     const [isDragging, setIsDragging] = useState<boolean>(false)
-    const [selectedPollType, setSelectedPollType] = useState<
-        PollType | undefined
-    >(pollTypes.find((pollType) => pollType.id === 0))
-    const [selectedDates, setSelectedDates] = useState<Date[]>([])
 
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
@@ -44,7 +39,8 @@ const SortableList: React.FC = () => {
                 { text: '', placeholder: 'Answer 3' },
             ],
             scheduledAnswers: [],
-            pollType: 0,
+            dayPickerMode: true,
+            pollType: "simple",
         },
     })
 
@@ -52,21 +48,6 @@ const SortableList: React.FC = () => {
         control: form.control,
         name: 'textAnswers',
     })
-
-    const scheduledAnswers = useFieldArray({
-        control: form.control,
-        name: 'scheduledAnswers',
-    })
-
-    const handleChangeSelectedPollType = (pollType: PollType) => {
-        form.setValue('pollType', pollType.id)
-        setSelectedPollType(pollType)
-    }
-
-    const handleChangeScheduledDates = (dates: Date[]) => {
-        // form.setValue('')
-        
-    }
 
     const incrementFakeProgressBar = () => {
         setProgress((prevProgress) => {
@@ -78,8 +59,6 @@ const SortableList: React.FC = () => {
     }
 
     const onSubmit = async (values: FormSchema) => {
-        if (!selectedPollType) throw new Error('Invalid state')
-
         setIsSubmitting(true)
         setProgress(0)
         const progressInterval = setInterval(incrementFakeProgressBar, 25) // Increment every 500ms
@@ -87,7 +66,7 @@ const SortableList: React.FC = () => {
         const formData = new FormData()
         formData.append('title', values.title)
         formData.append('description', values.description || '')
-        formData.append('pollTypeId', selectedPollType.id.toString())
+        formData.append('pollTypeId', values.pollType.toString())
         formData.append(
             'textAnswers',
             JSON.stringify(
@@ -127,17 +106,17 @@ const SortableList: React.FC = () => {
     }
 
     const handleRemoveAnswer = (id: string) => {
-        const { fields, remove } = textAnswers;
+        const { fields, remove } = textAnswers
         remove(fields.findIndex((answer) => answer.id === id))
     }
 
     const handleAddAnswer = () => {
-        const { fields, append } = textAnswers;
+        const { fields, append } = textAnswers
         append({ text: '', placeholder: `Answer ${fields.length + 1}` })
     }
 
     const handleDragEnd = (event: DragEndEvent) => {
-        const { fields, replace } = textAnswers;
+        const { fields, replace } = textAnswers
 
         setIsDragging(false)
         const { active, over } = event
@@ -157,6 +136,8 @@ const SortableList: React.FC = () => {
 
     console.log(form.getValues())
 
+    const selectedPollType = form.watch("pollType");
+
     return (
         <div className="p-8 bg-card text-card-foreground rounded-xl border">
             <Form {...form}>
@@ -171,12 +152,9 @@ const SortableList: React.FC = () => {
                         setFiles={setFiles}
                     />
                     <PollTypeFormField
-                        selectedPollType={selectedPollType}
-                        handleChangeSelectedPollType={
-                            handleChangeSelectedPollType
-                        }
+                        form={form}
                     />
-                    {selectedPollType?.id === 0 && (
+                    {selectedPollType === "simple" && (
                         <SortableAnswerFormField
                             form={form}
                             fields={textAnswers.fields}
@@ -187,10 +165,9 @@ const SortableList: React.FC = () => {
                             handleDragEnd={handleDragEnd}
                         />
                     )}
-                    {selectedPollType?.id === 1 && (
-                        <ScheduledAnswerFormField 
-                            selectedDates={selectedDates}
-                            handleChangeScheduledDates={handleChangeScheduledDates}
+                    {selectedPollType === "schedule" && (
+                        <ScheduledAnswerFormField
+                            form={form}
                         />
                     )}
                     <Separator />

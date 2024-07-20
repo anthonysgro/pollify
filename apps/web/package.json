@@ -40,6 +40,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
+    "drizzle-kit": "^0.21.4",
     "file-loader": "^6.2.0",
     "filepond": "^4.31.1",
     "filepond-plugin-file-validate-type": "^1.2.9",
@@ -82,7 +83,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^9.0.8",
-    "drizzle-kit": "^0.21.4",
     "typescript": "^5"
   }
 }

@@ -75,19 +75,19 @@ export function SortableAnswerFormField({
                         items={fields}
                         strategy={verticalListSortingStrategy}
                     >
-                        {fields.map((field, index) => {
+                        {fields.map((item, index) => {
                             return (
                                 <FormField
-                                    key={field.id}
+                                    key={item.id}
                                     control={form.control}
                                     name={`textAnswers.${index}.text`}
-                                    render={(fieldRenderProps) => (
+                                    render={({ field }) => (
                                         <SortableAnswer
-                                            field={fieldRenderProps.field}
+                                            field={field}
                                             handleRemove={handleRemoveAnswer}
-                                            answer={field}
+                                            answer={item}
                                             handleMouseEnter={() =>
-                                                handleMouseEnter(field.id)
+                                                handleMouseEnter(item.id)
                                             }
                                             handleMouseLeave={handleMouseLeave}
                                             hoveredId={hoveredId}

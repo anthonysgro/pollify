@@ -16,20 +16,27 @@ export const formSchema = z.object({
             }),
         )
         .min(1, { message: 'At least one answer is required.' }),
-    scheduledAnswers:
-        z.array(
-            z.object({
-                startDate: z.date(),
-                endDate: z.date(),
-            })
-        ),
-    pollType: z.number({ message: 'Invalid form type' }),
+    scheduledAnswers: z.array(
+        z.object({
+            from: z.date(),
+            to: z.date(),
+        }),
+    ),
+    dayPickerMode: z.boolean({ message: "Invalid day picker mode"}),
+    pollType: z.enum(["simple", "schedule"], {
+        required_error: "You need to select a poll type.",
+      }
+    ),
 })
 
 export type FormSchema = z.infer<typeof formSchema>
 
 export type DateRange = {
-    startDate: DateTime
-    endDate: DateTime
-    key: string
+    from: DateTime
+    t: DateTime
+}
+
+export type DateRangeJS = {
+    from: Date
+    to: Date
 }
