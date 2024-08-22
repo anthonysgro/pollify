@@ -37,10 +37,10 @@ function PrivacyPolicyForm({ className }: React.ComponentProps<'div'>) {
                     Last Updated: 12/26/23
                 </Label>
                 <p className="mt-1">
-                    This Privacy Policy (&quot;Policy&quot;) outlines how Misho
+                    This Privacy Policy (&quot;Policy&quot;) outlines how Pollify
                     (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;)
                     collects, uses, and protects your personal information when
-                    you use Misho and its related services (collectively, the
+                    you use Pollify and its related services (collectively, the
                     &quot;Service&quot;). By using the Service, you agree to the
                     terms of this Policy. If you do not agree with the terms of
                     this Policy, please do not use the Service.

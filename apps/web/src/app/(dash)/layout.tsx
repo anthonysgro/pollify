@@ -14,34 +14,18 @@ import { UILink } from './dashboard/types'
 import { Icons } from '@/components/icons'
 import DashboardNav from './dashboard/(components)/dashboard-nav'
 import { siteConfig } from '@/config/site'
+import DashboardLink from './dashboard/(components)/dashboard-link'
 
 interface DashboardLayoutProps {
     children: React.ReactNode
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-    const links: UILink[] = [
-        { href: '/dashboard/overview', label: 'Overview', icon: Icons.home },
-        {
-            href: '/dashboard/polls',
-            label: 'Polls',
-            icon: Icons.shoppingCart,
-            badge: 6,
-        },
-        { href: '/dashboard/workshop', label: 'Workshop', icon: Icons.package },
-        {
-            href: '/dashboard/analytics',
-            label: 'Analytics',
-            icon: Icons.lineChart,
-        },
-        { href: '/dashboard/settings', label: 'Settings', icon: Icons.users },
-    ]
-
     return (
         <>
             <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
                 <div className="hidden border-r bg-muted/40 md:block">
-                    <div className="flex h-full max-h-screen flex-col gap-2">
+                    <div className="flex h-full max-h-screen flex-col gap-2 x">
                         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                             <Link
                                 href="#"

@@ -39,8 +39,8 @@ function TermsOfServiceForm({ className }: React.ComponentProps<'div'>) {
                 <p className="mt-1">
                     Welcome to Pollify! These Terms of Service
                     (&quot;Terms&quot;) constitute a legally binding agreement
-                    between you and Misho (&quot;we,&quot; &quot;us,&quot; or
-                    &quot;our&quot;) governing your use of Misho and its related
+                    between you and Pollify (&quot;we,&quot; &quot;us,&quot; or
+                    &quot;our&quot;) governing your use of Pollify and its related
                     services (collectively, the &quot;Service&quot;). By
                     accessing or using the Service, you agree to be bound by
                     these Terms. If you do not agree to these Terms, please do
@@ -132,7 +132,7 @@ function TermsOfServiceForm({ className }: React.ComponentProps<'div'>) {
                 </Label>
                 <p className="mt-1">
                     <span className="font-semibold">8.1.</span> To the fullest
-                    extent permitted by law, Misho shall not be liable for any
+                    extent permitted by law, Pollify shall not be liable for any
                     indirect, incidental, special, consequential, or punitive
                     damages.
                 </p>

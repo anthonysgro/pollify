@@ -12,12 +12,12 @@ export function SiteFooter() {
                         rel="noreferrer"
                         className="font-medium underline underline-offset-4"
                     >
-                        Misho
+                        Pollify
                     </a>
                     . This website is currently under construction.
                 </p>
                 {/* <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                    Copyright © 2023 Misho
+                    Copyright © 2024 Pollify
                 </p> */}
             </div>
         </footer>

@@ -1,9 +1,9 @@
 export const siteConfig = {
     name: 'Pollify',
-    title: 'Pollify: Create Quick Polls with your Friends',
+    title: 'Pollify: Discover What Matters',
     url: 'https://pollify.app',
     ogImage: 'https://group.app/og.png',
-    description: 'The platform for creating polls with your friends',
+    description: 'Create Polls, Share Ideas, Discover What Matters',
     links: {
         twitter: 'https://twitter.com/pollify',
         github: 'https://github.com/pollify',

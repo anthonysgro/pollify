@@ -34,24 +34,24 @@ interface IHomepageContentItem {
 
 const homepageContentItems: IHomepageContentItem[] = [
     {
-        title: 'The Future of Charitable Giving.',
+        title: 'Next-Gen Polling Platform',
         description:
-            'Directly contribute to in-need individuals, bypassing third-party trusts. Accessible. Decentralized. Seamless.',
+            'Dive into creating, sharing, and analyzing all your polling needs. Accessible. Streamlined. Seamless.',
         img: VerticalTwo,
         banner: {
             active: true,
-            link: '/docs/changelog',
-            sm: 'Style, a new CLI and more.',
-            lg: 'View the latest news in direct donation',
+            link: '#',
+            sm: 'Get started in just one click.',
+            lg: 'Join the fastest growing poll platform today.',
         },
         options: {
             reversed: false,
         },
     },
     {
-        title: 'Feel secure in your philanthropy.',
+        title: 'Easiest platform for making polls.',
         description:
-            'Donate to target communities with less exposure to common worries like embezzlement and malpractice.',
+            'Leverage our workshop for dynamic poll creation, reviewing active polls, and much more.',
         img: VerticalOne,
         banner: {
             active: false,

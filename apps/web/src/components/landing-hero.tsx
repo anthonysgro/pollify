@@ -68,7 +68,7 @@ export const LandingHero = () => {
                             <a
                                 href={user ? '/dashboard' : '/login'}
                                 className="ui-link group inline-block pt-[.3rem] pb-[.3rem] px-3 hover-hover:hover:bg-inverse hover-hover:hover:text-inverse hover-hover:hover:border-primary relative ui-link--inherit"
-                                aria-label="Learn about Misho"
+                                aria-label="Learn about Pollify"
                             >
                                 <span className="flex items-center">
                                     <span className="f-ui-1">
