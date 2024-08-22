@@ -1,7 +1,13 @@
-import { MainNavItem, SidebarNavItem, DashNavItem } from '@/types/nav'
+import {
+    MainNavItem,
+    SidebarNavItem,
+    SignedInNavItem,
+    DashNavItem,
+} from '@/types/nav'
 
 interface DocsConfig {
     mainNav: MainNavItem[]
+    signedInNav: SignedInNavItem[]
     dashNav: DashNavItem[]
     sidebarNav: SidebarNavItem[]
 }
@@ -19,6 +25,20 @@ export const docsConfig: DocsConfig = {
         {
             title: 'Contact',
             href: '/contact',
+        },
+    ],
+    signedInNav: [
+        {
+            title: 'Dashboard',
+            href: '/dashboard',
+        },
+        {
+            title: 'Polls',
+            href: '/polls',
+        },
+        {
+            title: 'Workshop',
+            href: '/workshop',
         },
     ],
     dashNav: [

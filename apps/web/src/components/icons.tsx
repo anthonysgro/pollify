@@ -26,6 +26,14 @@ import {
     X,
     ChevronsUpDown,
     Minus,
+    Badge,
+    Bell,
+    Home,
+    LineChart,
+    Package,
+    Package2,
+    ShoppingCart,
+    Users,
 } from 'lucide-react'
 
 import {
@@ -38,6 +46,14 @@ import {
 } from '@radix-ui/react-icons'
 
 export const Icons = {
+    badge: Badge,
+    bell: Bell,
+    home: Home,
+    lineChart: LineChart,
+    package: Package,
+    package2: Package2,
+    shoppingCart: ShoppingCart,
+    users: Users,
     checkCircledIcon: CheckCircledIcon,
     crossCircledIcon: CrossCircledIcon,
     questionMarkCircledIcon: QuestionMarkCircledIcon,

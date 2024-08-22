@@ -2,51 +2,48 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-import { cn } from '@/lib/utils'
+import { UILink } from '../types'
+import { Badge } from '@/components/ui/badge'
 import { Icons } from '@/components/icons'
-import { DashNavItem } from '@/types/nav'
-// import TeamSwitcher from "./team-switcher";
 
-interface DashboardNavProps {
-    items: DashNavItem[]
-}
+function DashboardNav() {
+    const pathname = usePathname(); // Get the current path
 
-export function DashboardNav({ items }: DashboardNavProps) {
-    const path = usePathname()
-
-    if (!items?.length) {
-        return null
-    }
-
+    const links: UILink[] = [
+        { href: '/dashboard/overview', label: 'Overview', icon: Icons.home },
+        { href: '/dashboard/polls', label: 'Polls', icon: Icons.shoppingCart, badge: 6 },
+        { href: '/dashboard/workshop', label: 'Workshop', icon: Icons.package },
+        { href: '/dashboard/analytics', label: 'Analytics', icon: Icons.lineChart },
+        { href: '/dashboard/settings', label: 'Settings', icon: Icons.users },
+        { href: '/', label: 'Return to homepage', icon: Icons.chevronLeft }
+    ]
     return (
-        <nav className="grid items-start gap-2">
-            {/* <TeamSwitcher /> */}
-            {items.map((item, index) => {
-                const Icon = Icons[item.icon || 'arrowRight']
+        <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+            {links.map((link) => {
+                const isActive = pathname === link.href
+
                 return (
-                    item.href && (
-                        <Link
-                            key={index}
-                            href={item.disabled ? '/' : item.href}
-                        >
-                            <span
-                                className={cn(
-                                    'max-w-[200px] group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
-                                    path === item.href
-                                        ? 'bg-accent'
-                                        : 'transparent',
-                                    item.disabled &&
-                                        'cursor-not-allowed opacity-80',
-                                )}
-                            >
-                                <Icon className="mr-2 h-4 w-4" />
-                                <span>{item.title}</span>
-                            </span>
-                        </Link>
-                    )
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
+                            isActive
+                                ? 'bg-muted text-primary'
+                                : 'text-muted-foreground hover:text-primary'
+                        }`}
+                    >
+                        <link.icon className="h-4 w-4" />
+                        {link.label}
+                        {link.badge && (
+                            <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                                {link.badge}
+                            </Badge>
+                        )}
+                    </Link>
                 )
             })}
         </nav>
     )
 }
+
+export default DashboardNav

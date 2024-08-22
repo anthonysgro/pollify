@@ -64,9 +64,7 @@ export function ScheduledAnswerField({
         return toDateString(value)
     }
 
-    const handleAddTime = () => {
-
-    }
+    const handleAddTime = () => {}
 
     // console.log('HELLO THERE')
     // console.log(value)
@@ -159,7 +157,7 @@ export function ScheduledAnswerFormField({
         // append(newDates)
     }
 
-        console.log('HELLO THERE')
+    console.log('HELLO THERE')
     console.log(fields.values())
     console.log(fields)
 
