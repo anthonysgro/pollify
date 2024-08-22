@@ -22,11 +22,10 @@ export const formSchema = z.object({
             to: z.date(),
         }),
     ),
-    dayPickerMode: z.boolean({ message: "Invalid day picker mode"}),
-    pollType: z.enum(["simple", "schedule"], {
-        required_error: "You need to select a poll type.",
-      }
-    ),
+    dayPickerMode: z.boolean({ message: 'Invalid day picker mode' }),
+    pollType: z.enum(['simple', 'schedule'], {
+        required_error: 'You need to select a poll type.',
+    }),
 })
 
 export type FormSchema = z.infer<typeof formSchema>

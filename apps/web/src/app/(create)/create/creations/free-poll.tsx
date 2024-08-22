@@ -40,7 +40,7 @@ const SortableList: React.FC = () => {
             ],
             scheduledAnswers: [],
             dayPickerMode: true,
-            pollType: "simple",
+            pollType: 'simple',
         },
     })
 
@@ -136,7 +136,7 @@ const SortableList: React.FC = () => {
 
     console.log(form.getValues())
 
-    const selectedPollType = form.watch("pollType");
+    const selectedPollType = form.watch('pollType')
 
     return (
         <div className="p-8 bg-card text-card-foreground rounded-xl border">
@@ -151,10 +151,8 @@ const SortableList: React.FC = () => {
                         files={files}
                         setFiles={setFiles}
                     />
-                    <PollTypeFormField
-                        form={form}
-                    />
-                    {selectedPollType === "simple" && (
+                    <PollTypeFormField form={form} />
+                    {selectedPollType === 'simple' && (
                         <SortableAnswerFormField
                             form={form}
                             fields={textAnswers.fields}
@@ -165,10 +163,8 @@ const SortableList: React.FC = () => {
                             handleDragEnd={handleDragEnd}
                         />
                     )}
-                    {selectedPollType === "schedule" && (
-                        <ScheduledAnswerFormField
-                            form={form}
-                        />
+                    {selectedPollType === 'schedule' && (
+                        <ScheduledAnswerFormField form={form} />
                     )}
                     <Separator />
                     <Button type="submit">Submit</Button>

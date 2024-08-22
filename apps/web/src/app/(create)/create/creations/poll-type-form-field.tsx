@@ -25,7 +25,7 @@ import {
     FormLabel,
     FormDescription,
     FormMessage,
-    FormField
+    FormField,
 } from '@/components/ui/form'
 import { FormSchema } from '../formSchema'
 
@@ -36,12 +36,9 @@ interface PollTypeSelectorProps extends PopoverProps {
     form: UseFormReturn<FormSchema, any, undefined>
 }
 
-export function PollTypeFormField({
-    form,
-    ...props
-}: PollTypeSelectorProps) {
+export function PollTypeFormField({ form, ...props }: PollTypeSelectorProps) {
     const [open, setOpen] = React.useState(false)
-    const selectedPollType = form.watch("pollType")
+    const selectedPollType = form.watch('pollType')
 
     return (
         <FormField
@@ -59,7 +56,9 @@ export function PollTypeFormField({
                                 aria-expanded={open}
                                 className="flex-1 justify-between md:max-w-[200px] lg:max-w-[300px]"
                             >
-                                {selectedPollType ? pollTypeNames[selectedPollType] : 'Poll type'}
+                                {selectedPollType
+                                    ? pollTypeNames[selectedPollType]
+                                    : 'Poll type'}
                                 <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
@@ -67,45 +66,65 @@ export function PollTypeFormField({
                             <Command>
                                 <CommandInput placeholder="Search form types..." />
                                 <CommandList>
-                                    <CommandEmpty>No poll types found.</CommandEmpty>
+                                    <CommandEmpty>
+                                        No poll types found.
+                                    </CommandEmpty>
                                     <FormControl>
-                                        <CommandGroup 
+                                        <CommandGroup
                                             heading="Poll types"
                                             onChange={field.onChange}
-                                            defaultValue={field.value}>   
+                                            defaultValue={field.value}
+                                        >
                                             <FormItem>
                                                 <FormControl>
-                                                    <CommandItem 
+                                                    <CommandItem
                                                         value="simple"
                                                         onSelect={() => {
-                                                            form.setValue('pollType', 'simple')
+                                                            form.setValue(
+                                                                'pollType',
+                                                                'simple',
+                                                            )
                                                             setOpen(false)
                                                         }}
                                                     >
                                                         Simple Poll
                                                         <CheckIcon
-                                                            className={cn('ml-auto h-4 w-4', field.value === "simple" ? 'opacity-100' : 'opacity-0')}
-                                                            />
-
-                                                    </CommandItem>
-                                                </FormControl>
-                                            </FormItem>  
-                                            <FormItem>
-                                                <FormControl>
-                                                    <CommandItem 
-                                                        value="schedule"
-                                                        onSelect={() => {
-                                                            form.setValue('pollType', 'schedule')
-                                                            setOpen(false)
-                                                        }} 
-                                                    >
-                                                        Schedule Meeting
-                                                        <CheckIcon
-                                                            className={cn('ml-auto h-4 w-4', field.value === "schedule" ? 'opacity-100' : 'opacity-0')}
+                                                            className={cn(
+                                                                'ml-auto h-4 w-4',
+                                                                field.value ===
+                                                                    'simple'
+                                                                    ? 'opacity-100'
+                                                                    : 'opacity-0',
+                                                            )}
                                                         />
                                                     </CommandItem>
                                                 </FormControl>
-                                            </FormItem>                                             
+                                            </FormItem>
+                                            <FormItem>
+                                                <FormControl>
+                                                    <CommandItem
+                                                        value="schedule"
+                                                        onSelect={() => {
+                                                            form.setValue(
+                                                                'pollType',
+                                                                'schedule',
+                                                            )
+                                                            setOpen(false)
+                                                        }}
+                                                    >
+                                                        Schedule Meeting
+                                                        <CheckIcon
+                                                            className={cn(
+                                                                'ml-auto h-4 w-4',
+                                                                field.value ===
+                                                                    'schedule'
+                                                                    ? 'opacity-100'
+                                                                    : 'opacity-0',
+                                                            )}
+                                                        />
+                                                    </CommandItem>
+                                                </FormControl>
+                                            </FormItem>
                                         </CommandGroup>
                                     </FormControl>
                                 </CommandList>
@@ -113,15 +132,15 @@ export function PollTypeFormField({
                         </PopoverContent>
                     </Popover>
                     <FormDescription></FormDescription>
-                    <FormMessage /> 
+                    <FormMessage />
                 </FormItem>
             )}
         />
     )
 }
 
-
-                    {/* <Command>
+{
+    /* <Command>
                         <CommandInput placeholder="Search form types..." />
                         <CommandList>
                             <CommandEmpty>No poll types found.</CommandEmpty>
@@ -152,4 +171,5 @@ export function PollTypeFormField({
                                 ))}
                             </CommandGroup>
                         </CommandList>
-                    </Command> */}
+                    </Command> */
+}

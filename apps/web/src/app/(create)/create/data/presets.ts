@@ -4,6 +4,6 @@ export interface PollType {
 }
 
 export const pollTypeNames = {
-    simple: "Simple Poll",
-    schedule: "Schedule Meeting"
+    simple: 'Simple Poll',
+    schedule: 'Schedule Meeting',
 }

@@ -16,7 +16,7 @@ export const useMutationObserver = (
             observer.observe(ref.current, options)
             return () => observer.disconnect()
         } else {
-            return;
+            return
         }
     }, [ref, callback, options])
 }
