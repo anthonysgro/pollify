@@ -34,13 +34,13 @@ interface IHomepageContentItem {
 
 const homepageContentItems: IHomepageContentItem[] = [
     {
-        title: 'Next-Gen Polling Platform',
+        title: 'The Next-Generation Polling Platform',
         description:
             'Dive into creating, sharing, and analyzing all your polling needs. Accessible. Streamlined. Seamless.',
         img: VerticalTwo,
         banner: {
             active: true,
-            link: '#',
+            link: '/login',
             sm: 'Get started in just one click.',
             lg: 'Join the fastest growing poll platform today.',
         },
@@ -49,7 +49,7 @@ const homepageContentItems: IHomepageContentItem[] = [
         },
     },
     {
-        title: 'Easiest platform for making polls.',
+        title: 'The easiest workflow for making polls.',
         description:
             'Leverage our workshop for dynamic poll creation, reviewing active polls, and much more.',
         img: VerticalOne,

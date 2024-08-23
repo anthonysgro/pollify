@@ -36,7 +36,7 @@ export const LandingHero = () => {
                 >
                     Your browser does not support the video tag
                 </video>
-                <div className="absolute bottom-gutter bottom-24 sm:bottom-14 right-[24px] z-40">
+                <div className="absolute bottom-gutter bottom-14 right-[24px] z-40">
                     <Button
                         variant="outline"
                         className="mt-spacing-6 lg:mr-10 lg:w-[100px] py-0 flex flex-row flex-wrap items-center md:mr-0 pointer-events-auto"
@@ -52,9 +52,9 @@ export const LandingHero = () => {
                 </div>
             </div>
             <div className="absolute top-0 right-0 bottom-0 left-0 z-[20] pointer-events-none bg-[rgba(0,0,0,.28)] dark:bg-[rgba(0,0,0,0.56)] h-full" />
-            <div className="container absolute bottom-24 sm:bottom-14 md:bottom-22 left-0 right-0">
+            <div className="container absolute bottom-14 left-0 right-0">
                 <div className="cols-container">
-                    <div className="relative z-40 lg:ml-40 xs:w-6-cols md:w-8-cols lg:w-8-cols mr-20 md:mr-60 lg:mr-96 ">
+                    <div className="relative z-40 lg:ml-40 lg:w-30 mr-20 md:mr-60 lg:mr-96 ">
                         <h1 className="font-bold leading-tight f-display-2 tracking-tight text-3xl sm:text-5xl md:text-5xl lg:leading-[1.1] pointer-events-auto text-white [-webkit-text-stroke-width:1px] [-webkit-text-stroke-color:rgba(0,0,0,0.15)] dark:[-webkit-text-stroke-width:0px] dark:[-webkit-text-stroke-color:current]">
                             <Balance>{siteConfig.description}</Balance>
                         </h1>
