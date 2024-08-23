@@ -40,8 +40,8 @@ function TermsOfServiceForm({ className }: React.ComponentProps<'div'>) {
                     Welcome to Pollify! These Terms of Service
                     (&quot;Terms&quot;) constitute a legally binding agreement
                     between you and Pollify (&quot;we,&quot; &quot;us,&quot; or
-                    &quot;our&quot;) governing your use of Pollify and its related
-                    services (collectively, the &quot;Service&quot;). By
+                    &quot;our&quot;) governing your use of Pollify and its
+                    related services (collectively, the &quot;Service&quot;). By
                     accessing or using the Service, you agree to be bound by
                     these Terms. If you do not agree to these Terms, please do
                     not use the Service.
