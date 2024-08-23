@@ -15,7 +15,7 @@ function DashboardNav() {
         {
             href: '/dashboard/polls',
             label: 'Polls',
-            icon: Icons.shoppingCart,
+            icon: Icons.vote,
             badge: 6,
         },
         { href: '/dashboard/workshop', label: 'Workshop', icon: Icons.package },
