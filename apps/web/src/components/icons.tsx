@@ -7,7 +7,6 @@ import {
     ChevronRight,
     Command,
     CreditCard,
-    File,
     FileText,
     HelpCircle,
     Heart,
@@ -34,6 +33,12 @@ import {
     Package2,
     ShoppingCart,
     Users,
+    ListFilter,
+    File,
+    PlusCircle,
+    MoreHorizontal,
+    Link,
+    Link2,
 } from 'lucide-react'
 
 import {
@@ -46,6 +51,12 @@ import {
 } from '@radix-ui/react-icons'
 
 export const Icons = {
+    link: Link,
+    link2: Link2,
+    moreHorizontal: MoreHorizontal,
+    plusCircle: PlusCircle,
+    file: File,
+    listFiler: ListFilter,
     badge: Badge,
     bell: Bell,
     home: Home,

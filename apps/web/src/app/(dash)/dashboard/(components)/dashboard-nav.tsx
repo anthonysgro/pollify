@@ -11,7 +11,7 @@ function DashboardNav() {
     const pathname = usePathname(); // Get the current path
 
     const links: UILink[] = [
-        { href: '/dashboard/overview', label: 'Overview', icon: Icons.home },
+        { href: '/dashboard', label: 'Overview', icon: Icons.home },
         { href: '/dashboard/polls', label: 'Polls', icon: Icons.shoppingCart, badge: 6 },
         { href: '/dashboard/workshop', label: 'Workshop', icon: Icons.package },
         { href: '/dashboard/analytics', label: 'Analytics', icon: Icons.lineChart },
