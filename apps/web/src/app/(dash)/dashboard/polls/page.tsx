@@ -1,4 +1,3 @@
-import { Icons } from '@/components/icons'
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -6,27 +5,8 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { Button } from '@/components/ui/button'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card'
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import Link from 'next/link'
-import UserPollTable from '@/components/user-poll-table'
 import UserPollTableTabs from '@/components/user-poll-table-tabs'
 
 async function PollsPage() {

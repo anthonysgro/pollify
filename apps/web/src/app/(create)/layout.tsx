@@ -1,7 +1,6 @@
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { docsConfig } from '@/config/docs'
-import { DashboardNav } from '@/app/(dash)/dashboard/(components)/dashboard-nav'
 import PlaygroundPage from '@/app/(create)/create/page'
 interface DashboardLayoutProps {
     children: React.ReactNode

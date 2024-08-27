@@ -16,7 +16,6 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import Image from 'next/image'
 import Link from 'next/link'
 import { pollData } from '@/mock/poll-table'
