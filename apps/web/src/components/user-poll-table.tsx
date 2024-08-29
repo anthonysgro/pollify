@@ -61,7 +61,7 @@ async function UserPollTable() {
                             <Badge variant="outline">{poll.status}</Badge>
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
-                            <Link href={poll.link}>
+                            <Link href={`/dashboard/polls/${poll.id}`}>
                                 <Icons.link2 size={18} />
                             </Link>
                         </TableCell>
@@ -89,8 +89,14 @@ async function UserPollTable() {
                                     <DropdownMenuLabel>
                                         Actions
                                     </DropdownMenuLabel>
-                                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                    <Link href={`/dashboard/polls/${poll.id}/edit`}>
+                                    <DropdownMenuItem className='cursor-pointer'>
+                                        Edit
+                                        </DropdownMenuItem>
+                                        </Link>
+
+                                        <DropdownMenuItem className='cursor-pointer'>
+                                        Delete</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </TableCell>

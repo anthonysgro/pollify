@@ -1,5 +1,6 @@
 export const pollData = [
     {
+        id: 0,
         name: 'Laser Lemonade Machine',
         status: 'Draft',
         link: '#',
@@ -7,6 +8,7 @@ export const pollData = [
         createdAt: '2023-07-12 10:42 AM',
     },
     {
+        id: 1,
         name: 'Hypernova Headphones',
         status: 'Active',
         link: '#',
@@ -14,6 +16,7 @@ export const pollData = [
         createdAt: '2023-10-18 03:21 PM',
     },
     {
+        id: 2,
         name: 'AeroGlow Desk Lamp',
         status: 'Active',
         link: '#',
@@ -21,6 +24,7 @@ export const pollData = [
         createdAt: '2023-11-29 08:15 AM',
     },
     {
+        id: 3,
         name: 'TechTonic Energy Drink',
         status: 'Draft',
         link: '#',
@@ -28,6 +32,7 @@ export const pollData = [
         createdAt: '2023-12-25 11:59 PM',
     },
     {
+        id: 4,
         name: 'Gamer Gear Pro Controller',
         status: 'Active',
         link: '#',
@@ -35,6 +40,7 @@ export const pollData = [
         createdAt: '2024-01-01 12:00 AM',
     },
     {
+        id: 5,
         name: 'Luminous VR Headset',
         status: 'Active',
         link: '#',
